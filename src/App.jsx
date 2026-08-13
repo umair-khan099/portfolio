@@ -8,6 +8,7 @@ import { Testimonials } from './components/testimonials/Testimonials';
 import { Contact } from './components/contact/Contact';
 import { Footer } from './components/footer/Footer';
 import { useLenis } from './hooks/useLenis';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 export default function App() {
   const [preloaderComplete, setPreloaderComplete] = useState(false);
@@ -15,11 +16,18 @@ export default function App() {
   // Initialize Lenis smooth scroll synchronized with GSAP ScrollTrigger
   useLenis();
 
+  const handlePreloaderComplete = () => {
+    setPreloaderComplete(true);
+    requestAnimationFrame(() => {
+      ScrollTrigger.refresh();
+    });
+  };
+
   return (
     <main className="relative min-h-screen bg-[#050505] text-[#F4F4F0] selection:bg-[#F4F4F0] selection:text-[#050505] overflow-x-hidden">
       {/* Cinematic Preloader */}
       {!preloaderComplete && (
-        <Preloader onComplete={() => setPreloaderComplete(true)} />
+        <Preloader onComplete={handlePreloaderComplete} />
       )}
 
       {/* 1. Hero Section */}

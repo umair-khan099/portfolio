@@ -1,29 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 
 export const ProjectCard = React.forwardRef(({ project, index }, ref) => {
-  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
-  const cardRef = useRef(null);
-
-  const handleMouseMove = (e) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    setCursorPos({ x, y });
-  };
-
   return (
     <div
-      ref={(el) => {
-        cardRef.current = el;
-        if (typeof ref === 'function') ref(el);
-        else if (ref) ref.current = el;
-      }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onMouseMove={handleMouseMove}
-      className="project-card relative w-[90vw] sm:w-[85vw] lg:w-[80vw] max-w-6xl h-[75vh] sm:h-[80vh] bg-[#0c0c0e] border border-[rgba(244,244,240,0.14)] rounded-[28px] sm:rounded-[36px] p-6 sm:p-10 lg:p-12 flex flex-col justify-between overflow-hidden shadow-2xl transition-all duration-300 pointer-events-auto"
+      ref={ref}
+      className="project-card group relative w-[90vw] sm:w-[85vw] lg:w-[80vw] max-w-6xl h-[75vh] sm:h-[80vh] bg-[#0c0c0e] border border-[rgba(244,244,240,0.14)] rounded-[28px] sm:rounded-[36px] p-6 sm:p-10 lg:p-12 flex flex-col justify-between overflow-hidden shadow-2xl transition-all duration-300 pointer-events-auto"
       style={{ willChange: 'transform' }}
     >
       {/* Background Ambient Gradient Artifact */}
@@ -62,10 +43,9 @@ export const ProjectCard = React.forwardRef(({ project, index }, ref) => {
       {/* MIDDLE: Abstract Spatial Visual Object / UI Artifact */}
       <div className="relative z-10 flex-1 my-6 rounded-2xl border border-[rgba(244,244,240,0.08)] bg-[#050505]/70 overflow-hidden flex items-center justify-center p-6">
         <div
-          className="project-visual-inner w-full h-full rounded-xl flex flex-col justify-between p-6 sm:p-8 relative overflow-hidden transition-transform duration-700 ease-out"
+          className="project-visual-inner w-full h-full rounded-xl flex flex-col justify-between p-6 sm:p-8 relative overflow-hidden transition-transform duration-500 ease-out group-hover:scale-[1.02]"
           style={{
-            background: project.accentGradient,
-            transform: isHovered ? 'scale(1.03)' : 'scale(1.0)'
+            background: project.accentGradient
           }}
         >
           {/* Top Tag & Grid Layout */}
@@ -76,7 +56,7 @@ export const ProjectCard = React.forwardRef(({ project, index }, ref) => {
 
           {/* Center Headline Banner */}
           <div className="my-auto text-center py-8">
-            <span className="text-3xl sm:text-5xl lg:text-6xl font-black font-heading tracking-tighter text-[#F4F4F0] uppercase drop-shadow-lg block">
+            <span className="text-3xl sm:text-5xl lg:text-6xl font-black font-heading tracking-tighter text-[#F4F4F0] uppercase drop-shadow-lg block group-hover:scale-[1.01] transition-transform duration-300">
               {project.visualSpec.headline}
             </span>
           </div>
@@ -106,27 +86,14 @@ export const ProjectCard = React.forwardRef(({ project, index }, ref) => {
           <a
             href={project.link}
             onClick={(e) => e.preventDefault()}
-            className="w-9 h-9 rounded-full bg-[rgba(244,244,240,0.08)] border border-[rgba(244,244,240,0.15)] flex items-center justify-center text-[#F4F4F0] hover:bg-[#F4F4F0] hover:text-[#050505] transition-colors duration-300"
+            className="w-9 h-9 rounded-full bg-[rgba(244,244,240,0.08)] border border-[rgba(244,244,240,0.15)] flex items-center justify-center text-[#F4F4F0] group-hover:bg-[#F4F4F0] group-hover:text-[#050505] transition-colors duration-300"
           >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
             </svg>
           </a>
         </div>
       </div>
-
-      {/* Desktop Local Floating Cursor Label ("VIEW PROJECT →") */}
-      {isHovered && (
-        <div
-          className="hidden lg:flex fixed pointer-events-none z-50 px-4 py-2 rounded-full bg-[#F4F4F0] text-[#050505] font-heading text-xs font-bold tracking-wider uppercase shadow-2xl transition-transform duration-75 -translate-x-1/2 -translate-y-1/2"
-          style={{
-            left: `${cursorPos.x}px`,
-            top: `${cursorPos.y}px`
-          }}
-        >
-          VIEW PROJECT →
-        </div>
-      )}
     </div>
   );
 });

@@ -124,31 +124,31 @@ export const initHeroScrollTransition = ({ heroContainerRef, heroContentRef, obj
         end: '+=100%',
         pin: true,
         pinSpacing: true,
-        scrub: 1,
+        scrub: 0.6,
         anticipatePin: 1,
         invalidateOnRefresh: true
       }
     });
 
-    // Hero content: scale down, move up, shift slightly horizontal, fade opacity
+    // Hero content: scale down subtly, move up, shift slightly horizontal, fade opacity to ~0.6
     if (heroContentRef.current) {
       scrollTl.to(heroContentRef.current, {
-        scale: 0.85,
-        yPercent: -20,
-        xPercent: -3,
-        opacity: 0.25,
+        scale: 0.92,
+        yPercent: -15,
+        xPercent: -2,
+        opacity: 0.6,
         ease: 'none'
       }, 0);
     }
 
-    // 3D Object: move toward side, rotate subtly, scale down
+    // 3D Object: move toward side, rotate subtly, scale down slightly (slower & more subtle than typography)
     if (objectWrapperRef.current) {
       scrollTl.to(objectWrapperRef.current, {
-        xPercent: 20,
-        yPercent: -10,
-        scale: 0.7,
-        rotation: 8,
-        opacity: 0.4,
+        xPercent: 12,
+        yPercent: -6,
+        scale: 0.88,
+        rotation: 5,
+        opacity: 0.7,
         ease: 'none'
       }, 0);
     }

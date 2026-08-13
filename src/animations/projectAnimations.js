@@ -45,12 +45,12 @@ export const initProjectStackAnimations = ({ containerRef, headingRef, cardsRef 
 
     // Set initial card states
     // Card 0 (Project 01) is active initially
-    gsap.set(cardElements[0], { y: '0%', scale: 1, opacity: 1, zIndex: 1 });
+    gsap.set(cardElements[0], { y: '0vh', scale: 1, opacity: 1, zIndex: 1 });
 
-    // Cards 1, 2, 3 start off-screen below (y: 100vh, scale: 0.90)
+    // Cards 1, 2, 3 start off-screen below (y: 85vh, scale: 0.90)
     for (let i = 1; i < cardElements.length; i++) {
       gsap.set(cardElements[i], {
-        y: '100vh',
+        y: '85vh',
         scale: 0.90,
         opacity: 1,
         zIndex: i + 1
@@ -62,56 +62,65 @@ export const initProjectStackAnimations = ({ containerRef, headingRef, cardsRef 
       scrollTrigger: {
         trigger: containerRef.current,
         start: 'top top',
-        end: `+=${cardElements.length * 100}%`,
+        end: `+=${cardElements.length * 90}%`,
         pin: true,
         pinSpacing: true,
-        scrub: 0.8,
+        scrub: 0.6,
         anticipatePin: 1,
         invalidateOnRefresh: true
       }
     });
 
-    // Animate Card 0 initial visual scale
+    // Card 0 initial visual scale
     const firstVisual = cardElements[0].querySelector('.project-visual-inner');
     if (firstVisual) {
-      gsap.set(firstVisual, { scale: 1.15 });
-      stackTl.to(firstVisual, { scale: 1, ease: 'none', duration: 0.5 }, 0);
+      gsap.set(firstVisual, { scale: 1.12 });
+      stackTl.to(firstVisual, { scale: 1.0, ease: 'none', duration: 0.5 }, 0);
     }
 
-    // Loop through cards 1 to N-1 for stacking transitions
+    // Loop through cards 1 to N-1 for physical 3-phase stacking transitions
     for (let i = 1; i < cardElements.length; i++) {
       const currentCard = cardElements[i];
       const prevCard = cardElements[i - 1];
       const visualInner = currentCard.querySelector('.project-visual-inner');
 
-      const startTime = i;
+      const startTime = (i - 1) * 1.5;
 
-      // Previous card scales down slightly and shifts up as next card covers it
-      stackTl.to(prevCard, {
-        scale: 0.94,
-        yPercent: -2,
-        ease: 'none',
-        duration: 1
-      }, startTime);
-
-      // Incoming card moves up from 100vh to 0 and scales up to 1
+      // Phase A & B: Incoming card movement starts first (y: 85vh -> 0vh)
       stackTl.to(currentCard, {
         y: '0vh',
-        scale: 1,
-        ease: 'none',
-        duration: 1
+        ease: 'power1.out',
+        duration: 1.2
       }, startTime);
 
-      // Visual inside incoming card zooms out from 1.15 to 1.0
+      // Incoming card scale follows (0.90 -> 1.0)
+      stackTl.to(currentCard, {
+        scale: 1.0,
+        ease: 'power2.out',
+        duration: 1.0
+      }, startTime + 0.2);
+
+      // Phase C: Previous card recedes subtly behind it (scale: 1.0 -> 0.96, yPercent: -3)
+      stackTl.to(prevCard, {
+        scale: 0.96,
+        yPercent: -3,
+        ease: 'power1.out',
+        duration: 1.2
+      }, startTime + 0.1);
+
+      // Visual inside incoming card adjusts from 1.12 to 1.0
       if (visualInner) {
-        gsap.set(visualInner, { scale: 1.15 });
+        gsap.set(visualInner, { scale: 1.12 });
         stackTl.to(visualInner, {
           scale: 1.0,
           ease: 'none',
-          duration: 1
-        }, startTime);
+          duration: 1.0
+        }, startTime + 0.2);
       }
     }
+
+    // Breathing point at end before section releases
+    stackTl.to({}, { duration: 0.5 });
 
   }, containerRef);
 

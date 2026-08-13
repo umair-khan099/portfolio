@@ -54,20 +54,20 @@ export const Services = () => {
               
               {/* Column 1: Oversized Number */}
               <div className="lg:col-span-2">
-                <span className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-[#999999] group-hover:text-[#050505] transition-all duration-300 group-hover:scale-110 inline-block">
+                <span className="service-num font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-[#999999] group-hover:text-[#050505] transition-all duration-300 group-hover:scale-110 inline-block">
                   {service.number}
                 </span>
               </div>
 
               {/* Column 2: Large Title */}
               <div className="lg:col-span-4">
-                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold font-heading uppercase text-[#050505] tracking-tight group-hover:translate-x-3 transition-transform duration-300 ease-out">
+                <h3 className="service-title text-2xl sm:text-3xl lg:text-4xl font-bold font-heading uppercase text-[#050505] tracking-tight group-hover:translate-x-3 transition-transform duration-300 ease-out">
                   {service.title}
                 </h3>
               </div>
 
               {/* Column 3: Concise Description & Tags */}
-              <div className="lg:col-span-5 flex flex-col gap-3">
+              <div className="service-desc lg:col-span-5 flex flex-col gap-3">
                 <p className="text-sm sm:text-base text-[#444444] font-light leading-relaxed">
                   {service.description}
                 </p>
@@ -84,7 +84,7 @@ export const Services = () => {
               </div>
 
               {/* Column 4: Arrow Icon */}
-              <div className="lg:col-span-1 flex justify-end">
+              <div className="service-arrow lg:col-span-1 flex justify-end">
                 <div className="w-10 h-10 rounded-full border border-[#050505]/20 flex items-center justify-center group-hover:bg-[#050505] group-hover:text-[#F4F4F0] group-hover:border-[#050505] transition-all duration-300">
                   <svg
                     className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"

@@ -17,20 +17,22 @@ export const initAboutAnimations = ({ containerRef, headingRef, paragraphRef, ct
     }
 
     // Set initial states
-    gsap.set(headingRef.current, { scale: 1.2, opacity: 0 });
-    gsap.set(paragraphRef.current, { y: 60, opacity: 0 });
+    gsap.set(headingRef.current, { scale: 1.12, opacity: 0 });
+    gsap.set(paragraphRef.current, { y: 50, opacity: 0 });
     gsap.set(ctaRef.current, { y: 30, opacity: 0 });
 
-    if (decosRef.deco1) gsap.set(decosRef.deco1, { x: -100, opacity: 0, rotate: -15 });
-    if (decosRef.deco2) gsap.set(decosRef.deco2, { x: 100, opacity: 0, rotate: 15 });
-    if (decosRef.deco3) gsap.set(decosRef.deco3, { y: 100, opacity: 0, scale: 0.8 });
+    if (decosRef.deco1) gsap.set(decosRef.deco1, { x: -60, opacity: 0, rotate: -10 });
+    if (decosRef.deco2) gsap.set(decosRef.deco2, { x: 60, opacity: 0, rotate: 10 });
+    if (decosRef.deco3) gsap.set(decosRef.deco3, { y: 60, opacity: 0, scale: 0.85 });
 
-    // Entrance Timeline triggered on scroll
+    // Entrance Timeline directly tied to scroll progress
     const entranceTl = gsap.timeline({
       scrollTrigger: {
         trigger: containerRef.current,
-        start: 'top 75%',
-        toggleActions: 'play none none reverse'
+        start: 'top 85%',
+        end: 'top 35%',
+        scrub: 0.6,
+        invalidateOnRefresh: true
       }
     });
 
@@ -38,56 +40,36 @@ export const initAboutAnimations = ({ containerRef, headingRef, paragraphRef, ct
       .to(headingRef.current, {
         scale: 1,
         opacity: 1,
-        duration: 1.1,
-        ease: 'power3.out'
-      })
+        ease: 'power2.out'
+      }, 0)
       .to(paragraphRef.current, {
         y: 0,
         opacity: 1,
-        duration: 0.9,
-        ease: 'power3.out'
-      }, '-=0.7')
+        ease: 'power2.out'
+      }, 0.1)
       .to(ctaRef.current, {
         y: 0,
         opacity: 1,
-        duration: 0.8,
-        ease: 'power3.out'
-      }, '-=0.6');
+        ease: 'power2.out'
+      }, 0.2);
 
-    // Decorative Objects Reveal Timeline
-    if (decosRef.deco1 || decosRef.deco2 || decosRef.deco3) {
-      const decosTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top 70%',
-          toggleActions: 'play none none reverse'
-        }
-      });
+    if (decosRef.deco1) entranceTl.to(decosRef.deco1, { x: 0, opacity: 0.7, rotate: 0, ease: 'none' }, 0);
+    if (decosRef.deco2) entranceTl.to(decosRef.deco2, { x: 0, opacity: 0.7, rotate: 0, ease: 'none' }, 0.1);
+    if (decosRef.deco3) entranceTl.to(decosRef.deco3, { y: 0, opacity: 0.7, scale: 1, ease: 'none' }, 0.15);
 
-      if (decosRef.deco1) {
-        decosTl.to(decosRef.deco1, { x: 0, opacity: 0.8, rotate: 0, duration: 1.2, ease: 'power3.out' }, 0);
-      }
-      if (decosRef.deco2) {
-        decosTl.to(decosRef.deco2, { x: 0, opacity: 0.8, rotate: 0, duration: 1.4, ease: 'power3.out' }, 0.1);
-      }
-      if (decosRef.deco3) {
-        decosTl.to(decosRef.deco3, { y: 0, opacity: 0.8, scale: 1, duration: 1.3, ease: 'power3.out' }, 0.2);
-      }
-    }
-
-    // Parallax Scroll Effect on decorative elements
+    // Subtle continuous parallax scroll effect while passing through section
     const parallaxTl = gsap.timeline({
       scrollTrigger: {
         trigger: containerRef.current,
         start: 'top bottom',
         end: 'bottom top',
-        scrub: 1.5
+        scrub: 0.6
       }
     });
 
-    if (decosRef.deco1) parallaxTl.to(decosRef.deco1, { y: -60, ease: 'none' }, 0);
-    if (decosRef.deco2) parallaxTl.to(decosRef.deco2, { y: -120, ease: 'none' }, 0);
-    if (decosRef.deco3) parallaxTl.to(decosRef.deco3, { y: -90, rotate: 25, ease: 'none' }, 0);
+    if (decosRef.deco1) parallaxTl.to(decosRef.deco1, { y: -40, ease: 'none' }, 0);
+    if (decosRef.deco2) parallaxTl.to(decosRef.deco2, { y: -80, ease: 'none' }, 0);
+    if (decosRef.deco3) parallaxTl.to(decosRef.deco3, { y: -60, rotate: 15, ease: 'none' }, 0);
 
   }, containerRef);
 
