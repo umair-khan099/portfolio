@@ -2,6 +2,14 @@ import React from 'react';
 import { siteData } from '../../data/site';
 
 export const Navigation = () => {
+  const handleNavClick = (e, href) => {
+    e.preventDefault();
+    const targetElement = document.querySelector(href);
+    if (targetElement) {
+      targetElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <nav className="hero-nav w-full py-6 sm:py-8 flex items-center justify-between z-30 relative">
       {/* Brand Identity / Logo */}
@@ -18,8 +26,8 @@ export const Navigation = () => {
           <a
             key={link.label}
             href={link.href}
-            onClick={(e) => e.preventDefault()}
-            className="group relative font-heading text-xs font-medium tracking-[0.2em] text-[#A0A0A0] hover:text-[#F4F4F0] transition-colors duration-300 py-1"
+            onClick={(e) => handleNavClick(e, link.href)}
+            className="group relative font-heading text-xs font-medium tracking-[0.2em] text-[#A0A0A0] hover:text-[#F4F4F0] transition-colors duration-300 py-1 cursor-pointer"
           >
             <span className="inline-block transition-transform duration-300 group-hover:-translate-y-0.5">
               {link.label}

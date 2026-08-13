@@ -4,6 +4,9 @@ import { Hero } from './components/hero/Hero';
 import { About } from './components/about/About';
 import { Services } from './components/services/Services';
 import { Projects } from './components/projects/Projects';
+import { Testimonials } from './components/testimonials/Testimonials';
+import { Contact } from './components/contact/Contact';
+import { Footer } from './components/footer/Footer';
 import { useLenis } from './hooks/useLenis';
 
 export default function App() {
@@ -31,17 +34,14 @@ export default function App() {
       {/* 4. Selected Work / Signature Stacked Projects */}
       <Projects />
 
-      {/* Clean transition anchor point for Phase 3 (Testimonials, Contact, Footer) */}
-      <div id="future-sections-anchor" className="relative w-full h-[40vh] flex items-center justify-center border-t border-[rgba(244,244,240,0.08)] bg-[#050505]">
-        <div className="text-center px-4">
-          <span className="font-heading text-xs uppercase tracking-[0.3em] text-[#A0A0A0] block mb-2">
-            [ PHASE 2 COMPLETE ]
-          </span>
-          <p className="font-heading text-sm text-[#F4F4F0] opacity-50">
-            About + Services + Signature Project Stack Ready
-          </p>
-        </div>
-      </div>
+      {/* 5. Testimonials Section */}
+      <Testimonials />
+
+      {/* 6. Contact Section */}
+      <Contact />
+
+      {/* 7. Footer */}
+      <Footer />
     </main>
   );
 }
