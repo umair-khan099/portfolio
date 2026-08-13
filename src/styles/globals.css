@@ -1,0 +1,130 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-black: #050505;
+    --text-white: #F4F4F0;
+    --text-muted: #A0A0A0;
+    --border-color: rgba(244, 244, 240, 0.12);
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter Tight', sans-serif;
+    --accent-gradient: linear-gradient(135deg, #8B5CF6 0%, #EC4899 50%, #FF6B6B 100%);
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html, body {
+    background-color: var(--bg-black);
+    color: var(--text-white);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    width: 100%;
+    height: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6, .font-heading {
+    font-family: var(--font-heading);
+    letter-spacing: -0.04em;
+  }
+}
+
+/* Restrained accent utilities */
+.accent-gradient-text {
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.accent-gradient-border {
+  border-image: var(--accent-gradient) 1;
+}
+
+.accent-gradient-bg {
+  background: var(--accent-gradient);
+}
+
+/* Glass & Border Utilities */
+.subtle-border {
+  border: 1px solid var(--border-color);
+}
+
+.pill-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.75rem;
+  border-radius: 9999px;
+  background-color: rgba(244, 244, 240, 0.05);
+  border: 1px solid rgba(244, 244, 240, 0.15);
+  color: var(--text-white);
+  font-family: var(--font-heading);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pill-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  padding: 1px;
+  background: var(--accent-gradient);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0.3;
+  transition: opacity 0.3s ease;
+}
+
+.pill-button:hover {
+  transform: scale(1.03);
+  background-color: rgba(244, 244, 240, 0.1);
+  box-shadow: 0 0 25px rgba(236, 72, 153, 0.2);
+}
+
+.pill-button:hover::before {
+  opacity: 1;
+}
+
+/* Mask reveal container */
+.reveal-mask {
+  overflow: hidden;
+  display: block;
+}
+
+.reveal-line {
+  display: block;
+  will-change: transform, opacity;
+}
+
+/* Prevent Lenis scrollbar hiding layout shift */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
