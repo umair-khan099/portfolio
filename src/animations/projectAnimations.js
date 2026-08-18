@@ -1,128 +1,259 @@
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
 /**
- * Initializes Signature Stacked Projects Animation
- * @param {Object} refs - DOM references for Projects section
+ * Signature stacked project animation.
+ *
+ * Behaviour:
+ * - Project section pins during the stack sequence.
+ * - First card is active initially.
+ * - Each next card rises smoothly from below.
+ * - Previous card subtly recedes.
+ * - Animation is driven by scroll progress.
  */
-export const initProjectStackAnimations = ({ containerRef, headingRef, cardsRef }) => {
+export const initProjectStackAnimations = ({
+  containerRef,
+  headingRef,
+  cardsRef,
+}) => {
   const ctx = gsap.context(() => {
-    const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const container = containerRef.current;
 
-    // 1. Heading Reveal
-    if (headingRef.current) {
-      if (isReduced) {
-        gsap.set(headingRef.current, { opacity: 1, scale: 1, y: 0 });
-      } else {
-        gsap.set(headingRef.current, { opacity: 0, scale: 1.15, y: 80 });
+    if (!container) return;
 
-        gsap.to(headingRef.current, {
-          opacity: 1,
-          scale: 1,
-          y: 0,
-          duration: 1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: 'top 80%',
-            toggleActions: 'play none none reverse'
-          }
-        });
-      }
-    }
+    const isReduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
 
-    const cardElements = cardsRef.current;
-    if (!cardElements || cardElements.length === 0) return;
+    const cards = cardsRef.current.filter(Boolean);
+
+    if (!cards.length) return;
+
+    // ==================================================
+    // REDUCED MOTION
+    // ==================================================
 
     if (isReduced) {
-      cardElements.forEach((card) => {
-        gsap.set(card, { y: 0, scale: 1, opacity: 1 });
+      if (headingRef.current) {
+        gsap.set(headingRef.current, {
+          clearProps: "all",
+          opacity: 1,
+        });
+      }
+
+      cards.forEach((card) => {
+        gsap.set(card, {
+          clearProps: "all",
+          opacity: 1,
+          x: 0,
+          y: 0,
+          yPercent: 0,
+          scale: 1,
+        });
+
+        const visual = card.querySelector(".project-visual-inner");
+
+        if (visual) {
+          gsap.set(visual, {
+            clearProps: "all",
+            scale: 1,
+          });
+        }
       });
+
       return;
     }
 
-    // Set initial card states
-    // Card 0 (Project 01) is active initially
-    gsap.set(cardElements[0], { y: '0vh', scale: 1, opacity: 1, zIndex: 1 });
+    // ==================================================
+    // HEADING
+    // ==================================================
 
-    // Cards 1, 2, 3 start off-screen below (y: 85vh, scale: 0.90)
-    for (let i = 1; i < cardElements.length; i++) {
-      gsap.set(cardElements[i], {
-        y: '85vh',
-        scale: 0.90,
-        opacity: 1,
-        zIndex: i + 1
-      });
+    if (headingRef.current) {
+      gsap.fromTo(
+        headingRef.current,
+        {
+          opacity: 0,
+          y: 40,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.75,
+          ease: "power3.out",
+
+          scrollTrigger: {
+            trigger: container,
+            start: "top 82%",
+            once: true,
+          },
+        },
+      );
     }
 
-    // Single scrubbed timeline pinning the project section
+    // ==================================================
+    // INITIAL CARD STATES
+    // ==================================================
+
+    // First card is already active.
+    gsap.set(cards[0], {
+      x: 0,
+      y: 0,
+      yPercent: 0,
+      scale: 1,
+      opacity: 1,
+      zIndex: 10,
+    });
+
+    // All incoming cards start below the stage.
+    cards.slice(1).forEach((card, index) => {
+      gsap.set(card, {
+        x: 0,
+        y: "82vh",
+        yPercent: 0,
+        scale: 0.94,
+        opacity: 1,
+        zIndex: 11 + index,
+      });
+    });
+
+    // ==================================================
+    // PROJECT VISUAL INITIAL STATES
+    // ==================================================
+
+    cards.forEach((card) => {
+      const visual = card.querySelector(".project-visual-inner");
+
+      if (!visual) return;
+
+      gsap.set(visual, {
+        scale: 1.04,
+      });
+    });
+
+    // Progressive exposed card depth levels
+    const STACK_LEVELS = [
+      { y: "0vh", scale: 1, opacity: 1 },
+      { y: "-4.5vh", scale: 0.97, opacity: 0.94 },
+      { y: "-8.5vh", scale: 0.94, opacity: 0.86 },
+      { y: "-12vh", scale: 0.91, opacity: 0.78 },
+    ];
+
+    // ==================================================
+    // MAIN STACK TIMELINE
+    // ==================================================
+
+    const totalTransitions = Math.max(cards.length - 1, 1);
+    const holdDuration = 0.3; // Breathing room hold after final card
+
     const stackTl = gsap.timeline({
       scrollTrigger: {
-        trigger: containerRef.current,
-        start: 'top top',
-        end: `+=${cardElements.length * 90}%`,
+        trigger: container,
+
+        start: "top top",
+
+        // Total scroll distance includes transitions plus hold duration.
+        end: `+=${(totalTransitions + holdDuration) * 100}%`,
+
         pin: true,
         pinSpacing: true,
-        scrub: 0.6,
+
+        // Scroll-linked animation needs scrub.
+        // Keep it responsive because Lenis already smooths wheel input.
+        scrub: 0.25,
+
         anticipatePin: 1,
-        invalidateOnRefresh: true
+        invalidateOnRefresh: true,
+      },
+    });
+
+    // ==================================================
+    // FIRST PROJECT VISUAL
+    // ==================================================
+
+    const firstVisual = cards[0].querySelector(".project-visual-inner");
+
+    if (firstVisual) {
+      stackTl.to(
+        firstVisual,
+        {
+          scale: 1,
+          duration: 1,
+          ease: "none",
+        },
+        0,
+      );
+    }
+
+    // ==================================================
+    // CARD STACK TRANSITIONS
+    // ==================================================
+
+    cards.slice(1).forEach((currentCard, index) => {
+      const currentVisual = currentCard.querySelector(".project-visual-inner");
+      const transitionStart = index;
+
+      // -----------------------------------------------
+      // Incoming card becomes active at depth 0
+      // -----------------------------------------------
+      stackTl.to(
+        currentCard,
+        {
+          y: STACK_LEVELS[0].y,
+          scale: STACK_LEVELS[0].scale,
+          opacity: STACK_LEVELS[0].opacity,
+          duration: 1,
+          ease: "none",
+        },
+        transitionStart,
+      );
+
+      // -----------------------------------------------
+      // All previous cards recede progressively up into exposed stack
+      // -----------------------------------------------
+      for (let j = 0; j <= index; j++) {
+        const depthTo = index + 1 - j;
+        const targetLevel =
+          STACK_LEVELS[Math.min(depthTo, STACK_LEVELS.length - 1)];
+
+        stackTl.to(
+          cards[j],
+          {
+            y: targetLevel.y,
+            scale: targetLevel.scale,
+            opacity: targetLevel.opacity,
+            duration: 1,
+            ease: "none",
+          },
+          transitionStart,
+        );
+      }
+
+      // -----------------------------------------------
+      // Incoming visual settles
+      // -----------------------------------------------
+      if (currentVisual) {
+        stackTl.to(
+          currentVisual,
+          {
+            scale: 1,
+            duration: 1,
+            ease: "none",
+          },
+          transitionStart,
+        );
       }
     });
 
-    // Card 0 initial visual scale
-    const firstVisual = cardElements[0].querySelector('.project-visual-inner');
-    if (firstVisual) {
-      gsap.set(firstVisual, { scale: 1.12 });
-      stackTl.to(firstVisual, { scale: 1.0, ease: 'none', duration: 0.5 }, 0);
-    }
+    // Short natural breathing room hold before section unpins
+    stackTl.to({}, { duration: holdDuration });
 
-    // Loop through cards 1 to N-1 for physical 3-phase stacking transitions
-    for (let i = 1; i < cardElements.length; i++) {
-      const currentCard = cardElements[i];
-      const prevCard = cardElements[i - 1];
-      const visualInner = currentCard.querySelector('.project-visual-inner');
-
-      const startTime = (i - 1) * 1.5;
-
-      // Phase A & B: Incoming card movement starts first (y: 85vh -> 0vh)
-      stackTl.to(currentCard, {
-        y: '0vh',
-        ease: 'power1.out',
-        duration: 1.2
-      }, startTime);
-
-      // Incoming card scale follows (0.90 -> 1.0)
-      stackTl.to(currentCard, {
-        scale: 1.0,
-        ease: 'power2.out',
-        duration: 1.0
-      }, startTime + 0.2);
-
-      // Phase C: Previous card recedes subtly behind it (scale: 1.0 -> 0.96, yPercent: -3)
-      stackTl.to(prevCard, {
-        scale: 0.96,
-        yPercent: -3,
-        ease: 'power1.out',
-        duration: 1.2
-      }, startTime + 0.1);
-
-      // Visual inside incoming card adjusts from 1.12 to 1.0
-      if (visualInner) {
-        gsap.set(visualInner, { scale: 1.12 });
-        stackTl.to(visualInner, {
-          scale: 1.0,
-          ease: 'none',
-          duration: 1.0
-        }, startTime + 0.2);
-      }
-    }
-
-    // Breathing point at end before section releases
-    stackTl.to({}, { duration: 0.5 });
-
+    // ==================================================
+    // CLEANUP / RESET
+    // ==================================================
   }, containerRef);
 
   return ctx;
 };
+  

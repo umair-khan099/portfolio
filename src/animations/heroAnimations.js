@@ -1,5 +1,5 @@
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -8,9 +8,14 @@ gsap.registerPlugin(ScrollTrigger);
  * @param {Object} refs - DOM references for preloader elements
  * @param {Function} onComplete - Callback when preloader finishes exit transition
  */
-export const initPreloaderAnimation = ({ containerRef, numberRef, textRef }, onComplete) => {
+export const initPreloaderAnimation = (
+  { containerRef, numberRef, textRef },
+  onComplete,
+) => {
   const ctx = gsap.context(() => {
-    const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isReduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
     const duration = isReduced ? 0.3 : 1.2;
 
     const counter = { value: 0 };
@@ -18,45 +23,49 @@ export const initPreloaderAnimation = ({ containerRef, numberRef, textRef }, onC
     const tl = gsap.timeline({
       onComplete: () => {
         if (onComplete) onComplete();
-      }
+      },
     });
 
     // Count 0 to 100
     tl.to(counter, {
       value: 100,
       duration: duration,
-      ease: 'power2.inOut',
+      ease: "power2.inOut",
       onUpdate: () => {
         if (numberRef.current) {
-          numberRef.current.innerText = `${Math.floor(counter.value).toString().padStart(2, '0')}%`;
+          numberRef.current.innerText = `${Math.floor(counter.value).toString().padStart(2, "0")}%`;
         }
-      }
+      },
     });
 
     // Subtle scale and blur effect during counting
     if (!isReduced) {
-      tl.to(numberRef.current, {
-        scale: 1.05,
-        opacity: 0.95,
-        duration: duration * 0.5,
-        yoyo: true,
-        repeat: 1,
-        ease: 'sine.inOut'
-      }, 0);
+      tl.to(
+        numberRef.current,
+        {
+          scale: 1.05,
+          opacity: 0.95,
+          duration: duration * 0.5,
+          yoyo: true,
+          repeat: 1,
+          ease: "sine.inOut",
+        },
+        0,
+      );
     }
 
     // Completion pulse and exit transition
     tl.to(containerRef.current, {
       scale: 1.02,
       duration: 0.3,
-      ease: 'power2.out'
+      ease: "power2.out",
     });
 
     tl.to(containerRef.current, {
       yPercent: -100,
       duration: isReduced ? 0.4 : 0.8,
-      ease: 'power4.inOut',
-      display: 'none'
+      ease: "power4.inOut",
+      display: "none",
     });
   }, containerRef);
 
@@ -69,88 +78,227 @@ export const initPreloaderAnimation = ({ containerRef, numberRef, textRef }, onC
  */
 export const initHeroEntrance = ({ containerRef }) => {
   const ctx = gsap.context(() => {
-    const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isReduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
 
     if (isReduced) {
-      gsap.set('.reveal-line, .hero-nav, .hero-label, .hero-desc, .hero-cta, .hero-3d', {
-        opacity: 1,
-        y: 0,
-        scale: 1
-      });
+      gsap.set(
+        ".reveal-line, .hero-nav, .hero-label, .hero-desc, .hero-cta, .hero-3d",
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+        },
+      );
+
       return;
     }
 
-    // Set initial state
-    gsap.set('.hero-nav', { opacity: 0, y: -20 });
-    gsap.set('.hero-label .reveal-line', { y: '120%', opacity: 0 });
-    gsap.set('.hero-title-1 .reveal-line', { y: '120%', opacity: 0 });
-    gsap.set('.hero-title-2 .reveal-line', { y: '120%', opacity: 0 });
-    gsap.set('.hero-desc .reveal-line', { y: '120%', opacity: 0 });
-    gsap.set('.hero-cta', { opacity: 0, scale: 0.9, y: 20 });
-    gsap.set('.hero-3d', { opacity: 0, y: 60, scale: 0.85 });
+    // -----------------------------------------
+    // INITIAL STATES
+    // -----------------------------------------
 
-    const tl = gsap.timeline({
-      defaults: { ease: 'power4.out', duration: 1.1 }
+    gsap.set(".hero-nav", {
+      opacity: 0,
+      y: -16,
     });
 
-    // Sequence: Nav -> Label -> Title 1 -> Title 2 -> Desc -> CTA -> 3D Object
-    tl.to('.hero-nav', { opacity: 1, y: 0, duration: 0.8 })
-      .to('.hero-label .reveal-line', { y: '0%', opacity: 1 }, '-=0.5')
-      .to('.hero-title-1 .reveal-line', { y: '0%', opacity: 1 }, '-=0.7')
-      .to('.hero-title-2 .reveal-line', { y: '0%', opacity: 1 }, '-=0.9')
-      .to('.hero-desc .reveal-line', { y: '0%', opacity: 1 }, '-=0.8')
-      .to('.hero-cta', { opacity: 1, scale: 1, y: 0, duration: 0.8 }, '-=0.7')
-      .to('.hero-3d', { opacity: 1, y: 0, scale: 1, duration: 1.4, ease: 'power3.out' }, '-=1.0');
+    gsap.set(".hero-label .reveal-line", {
+      y: "110%",
+      opacity: 0,
+    });
 
+    gsap.set(".hero-title-1 .reveal-line", {
+      y: "110%",
+      opacity: 0,
+    });
+
+    gsap.set(".hero-title-2 .reveal-line", {
+      y: "110%",
+      opacity: 0,
+    });
+
+    gsap.set(".hero-desc .reveal-line", {
+      y: "110%",
+      opacity: 0,
+    });
+
+    gsap.set(".hero-cta", {
+      opacity: 0,
+      y: 18,
+      scale: 0.96,
+    });
+
+    gsap.set(".hero-3d", {
+      opacity: 0,
+      y: 40,
+      scale: 0.92,
+    });
+
+    // -----------------------------------------
+    // ENTRANCE TIMELINE
+    // -----------------------------------------
+
+    const tl = gsap.timeline({
+      defaults: {
+        ease: "power3.out",
+      },
+    });
+
+    // Navigation
+    tl.to(".hero-nav", {
+      opacity: 1,
+      y: 0,
+      duration: 0.55,
+    });
+
+    // Small label
+    tl.to(
+      ".hero-label .reveal-line",
+      {
+        y: "0%",
+        opacity: 1,
+        duration: 0.65,
+      },
+      "-=0.25",
+    );
+
+    // First heading line
+    tl.to(
+      ".hero-title-1 .reveal-line",
+      {
+        y: "0%",
+        opacity: 1,
+        duration: 0.85,
+      },
+      "-=0.20",
+    );
+
+    // Second heading line
+    tl.to(
+      ".hero-title-2 .reveal-line",
+      {
+        y: "0%",
+        opacity: 1,
+        duration: 0.85,
+      },
+      "-=0.45",
+    );
+
+    // Description
+    tl.to(
+      ".hero-desc .reveal-line",
+      {
+        y: "0%",
+        opacity: 1,
+        duration: 0.65,
+      },
+      "-=0.20",
+    );
+
+    // CTA
+    tl.to(
+      ".hero-cta",
+      {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.55,
+      },
+      "-=0.15",
+    );
+
+    // 3D object
+    tl.to(
+      ".hero-3d",
+      {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 1.0,
+        ease: "power3.out",
+      },
+      "-=0.35",
+    );
   }, containerRef);
 
   return ctx;
 };
-
 /**
  * Initializes Hero ScrollTrigger Transformation
  * Pinned hero section while scrolling, with cinematic scaling/fading/moving
  * @param {Object} refs - DOM references
  */
-export const initHeroScrollTransition = ({ heroContainerRef, heroContentRef, objectWrapperRef }) => {
+export const initHeroScrollTransition = ({
+  heroContainerRef,
+  heroContentRef,
+  objectWrapperRef,
+}) => {
   const ctx = gsap.context(() => {
-    const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (isReduced) return;
+    const isReduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    if (isReduced || !heroContainerRef.current) return;
 
     const scrollTl = gsap.timeline({
       scrollTrigger: {
         trigger: heroContainerRef.current,
-        start: 'top top',
-        end: '+=100%',
+
+        start: "top top",
+
+        // Keep the hero pinned for one viewport of scroll.
+        end: "+=100%",
+
         pin: true,
         pinSpacing: true,
-        scrub: 0.6,
+
+        // Slight smoothing, but don't make the animation
+        // lag behind the actual scroll.
+        scrub: 0.35,
+
         anticipatePin: 1,
-        invalidateOnRefresh: true
-      }
+
+        invalidateOnRefresh: true,
+      },
     });
 
-    // Hero content: scale down subtly, move up, shift slightly horizontal, fade opacity to ~0.6
+    // -----------------------------------------
+    // HERO TYPOGRAPHY
+    // -----------------------------------------
+
     if (heroContentRef.current) {
-      scrollTl.to(heroContentRef.current, {
-        scale: 0.92,
-        yPercent: -15,
-        xPercent: -2,
-        opacity: 0.6,
-        ease: 'none'
-      }, 0);
+      scrollTl.to(
+        heroContentRef.current,
+        {
+          scale: 0.94,
+          yPercent: -10,
+          xPercent: -1.5,
+          opacity: 0.72,
+          ease: "none",
+        },
+        0,
+      );
     }
 
-    // 3D Object: move toward side, rotate subtly, scale down slightly (slower & more subtle than typography)
+    // -----------------------------------------
+    // HERO 3D
+    // -----------------------------------------
+
     if (objectWrapperRef.current) {
-      scrollTl.to(objectWrapperRef.current, {
-        xPercent: 12,
-        yPercent: -6,
-        scale: 0.88,
-        rotation: 5,
-        opacity: 0.7,
-        ease: 'none'
-      }, 0);
+      scrollTl.to(
+        objectWrapperRef.current,
+        {
+          xPercent: 8,
+          yPercent: -4,
+          scale: 0.92,
+          rotation: 3,
+          opacity: 0.78,
+          ease: "none",
+        },
+        0,
+      );
     }
   }, heroContainerRef);
 

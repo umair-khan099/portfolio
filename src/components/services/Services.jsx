@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from 'react';
-import { servicesData } from '../../data/services';
-import { initServicesAnimations } from '../../animations/servicesAnimations';
+import React, { useEffect, useRef } from "react";
+import { servicesData } from "../../data/services";
+import { initServicesAnimations } from "../../animations/servicesAnimations";
 
 export const Services = () => {
   const containerRef = useRef(null);
@@ -11,7 +11,7 @@ export const Services = () => {
     const ctx = initServicesAnimations({
       containerRef,
       headingRef,
-      rowsRef
+      rowsRef,
     });
 
     return () => ctx.revert();
@@ -38,7 +38,8 @@ export const Services = () => {
         </div>
 
         <p className="max-w-md text-sm sm:text-base text-[#555555] font-light leading-relaxed">
-          Delivering end-to-end interactive solutions from initial creative direction to high-performance WebGL engineering.
+          Delivering end-to-end interactive solutions from initial creative
+          direction to high-performance WebGL engineering.
         </p>
       </div>
 
@@ -48,10 +49,9 @@ export const Services = () => {
           <div
             key={service.id}
             ref={(el) => (rowsRef.current[index] = el)}
-            className="service-row group relative py-10 lg:py-14 border-b border-[#050505]/15 transition-all duration-500 ease-out hover:bg-[#050505]/[0.03] px-4 sm:px-6 cursor-pointer"
+            className="service-row group relative py-10 lg:py-14 border-b border-[#050505]/15 px-4 sm:px-6 cursor-pointer hover:bg-[#050505]/[0.03]"
           >
             <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-6">
-              
               {/* Column 1: Oversized Number */}
               <div className="lg:col-span-2">
                 <span className="service-num font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-[#999999] group-hover:text-[#050505] transition-all duration-300 group-hover:scale-110 inline-block">
@@ -92,11 +92,15 @@ export const Services = () => {
                     viewBox="0 0 24 24"
                     stroke="currentColor"
                   >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M14 5l7 7m0 0l-7 7m7-7H3"
+                    />
                   </svg>
                 </div>
               </div>
-
             </div>
           </div>
         ))}

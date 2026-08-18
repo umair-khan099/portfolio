@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
-import { projectsData } from '../../data/projects';
-import { ProjectCard } from './ProjectCard';
-import { initProjectStackAnimations } from '../../animations/projectAnimations';
+import React, { useEffect, useRef } from "react";
+import { projectsData } from "../../data/projects";
+import { ProjectCard } from "./ProjectCard";
+import { initProjectStackAnimations } from "../../animations/projectAnimations";
 
 export const Projects = () => {
   const containerRef = useRef(null);
@@ -12,7 +12,7 @@ export const Projects = () => {
     const ctx = initProjectStackAnimations({
       containerRef,
       headingRef,
-      cardsRef
+      cardsRef,
     });
 
     return () => ctx.revert();
@@ -22,7 +22,7 @@ export const Projects = () => {
     <section
       ref={containerRef}
       id="work"
-      className="relative w-full min-h-screen bg-[#050505] text-[#F4F4F0] py-20 px-4 sm:px-8 lg:px-12 flex flex-col items-center justify-start overflow-hidden select-none"
+      className="relative w-full min-h-screen bg-[#050505] text-[#F4F4F0] py-20 px-4 sm:px-8 lg:px-12 flex flex-col items-center justify-start select-none"
     >
       {/* Section Header */}
       <div
@@ -41,11 +41,11 @@ export const Projects = () => {
       </div>
 
       {/* Sticky Project Stacking Stage Container */}
-      <div className="project-stage relative w-full flex items-center justify-center min-h-[80vh]">
+      <div className="project-stage relative w-full h-[80vh] flex items-center justify-center">
         {projectsData.map((project, index) => (
           <div
             key={project.id}
-            className="absolute inset-0 flex items-center justify-center"
+            className="absolute inset-0 flex items-center justify-center pointer-events-none"
           >
             <ProjectCard
               ref={(el) => (cardsRef.current[index] = el)}
