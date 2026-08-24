@@ -1,5 +1,6 @@
 import React, { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
+import { SiJavascript } from "react-icons/si";
 import { TechIcon } from "./TechIcon";
 
 // 6 Target Technologies with organic orbit arrangement & prominent floating specs
@@ -17,17 +18,10 @@ const techData = [
     },
     float: { y: -14, rotate: 3, scale: 1.04, duration: 3.4, delay: 0 },
     icon: () => (
-      <svg
-        viewBox="0 0 24 24"
+      <SiJavascript
+        color="#F7DF1E"
         className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 shrink-0"
-        fill="none"
-      >
-        <rect width="24" height="24" rx="4" fill="#F7DF1E" />
-        <path
-          d="M11.968 18.066c-.347.574-.954.912-1.745.912-1.077 0-1.67-.58-1.67-1.464 0-1.282 1.096-1.733 2.658-2.222.863-.26 1.766-.554 1.766-1.688 0-1.321-.99-2.115-2.613-2.115-1.54 0-2.48.78-2.793 1.83l1.52.424c.164-.53.538-.85 1.258-.85.72 0 1.1.339 1.1.841 0 .615-.468.868-1.523 1.221-1.332.441-2.905.954-2.905 2.766 0 1.636 1.22 2.76 3.125 2.76 1.488 0 2.502-.68 2.87-1.579l-1.048-.887zm6.78-8.566h-1.696v6.07c0 1.463-.78 2.088-1.892 2.088-.728 0-1.267-.29-1.597-.78l-1.047.887c.504.833 1.43 1.346 2.645 1.346 2.072 0 3.587-1.15 3.587-3.486v-6.125z"
-          fill="#000000"
-        />
-      </svg>
+      />
     ),
   },
   {
