@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { ContactScene } from "./ContactScene";
 import { initContactAnimations } from "../../animations/contactAnimations";
 
@@ -24,7 +24,7 @@ export const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const ctx = initContactAnimations({
       containerRef,
       linesRef: {

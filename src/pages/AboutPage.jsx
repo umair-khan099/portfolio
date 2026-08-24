@@ -1,209 +1,343 @@
 import React from "react";
 import { Link } from "react-router-dom";
+
 import { Navigation } from "../components/layout/Navigation";
 import { Footer } from "../components/footer/Footer";
-import { siteData } from "../data/site";
+
+import { aboutData } from "../data/aboutData";
 
 export const AboutPage = () => {
+  const { profile, about, skills, experience, education, projects, vision } =
+    aboutData;
+
   return (
-    <div className="relative min-h-screen bg-[#050505] text-[#F4F4F0] select-none overflow-x-hidden">
-      {/* Top Header / Navigation */}
-      <header className="px-6 sm:px-12 lg:px-20 border-b border-[rgba(244,244,240,0.08)] bg-[#050505]/80 backdrop-blur-md sticky top-0 z-50">
+    <div className="relative min-h-screen bg-[#050505] text-[#F4F4F0] overflow-x-hidden">
+      {/* Navigation */}
+      <header className="sticky top-0 z-50 border-b border-[rgba(244,244,240,0.08)] bg-[#050505]/90 backdrop-blur-md">
         <Navigation />
       </header>
 
-      {/* Main Content Area */}
-      <main className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-20 py-16 sm:py-24 flex flex-col gap-20">
-        {/* Page Hero Header */}
-        <div className="flex flex-col gap-6 items-start border-b border-[rgba(244,244,240,0.08)] pb-12">
+      <main className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-20 py-12 sm:py-20">
+        {/* =====================================================
+            PROFILE
+        ====================================================== */}
+        <section className="pb-16 border-b border-[rgba(244,244,240,0.08)]">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 text-xs font-heading tracking-widest text-[#A0A0A0] hover:text-[#F4F4F0] transition-colors duration-300 uppercase group mb-2 cursor-pointer"
+            className="inline-flex items-center gap-2 mb-12 text-xs font-heading tracking-widest text-[#A0A0A0] hover:text-[#F4F4F0] transition-colors uppercase"
           >
-            <svg
-              className="w-4 h-4 transition-transform duration-300 group-hover:-translate-x-1"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
-            <span>BACK TO HOME</span>
+            ← BACK TO HOME
           </Link>
 
-          <div className="flex items-center gap-3">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#8B5CF6]"></span>
-            <span className="font-heading text-xs font-semibold tracking-[0.3em] uppercase text-[#A0A0A0]">
-              [ PROFILE & ARCHITECTURE SPECS ]
-            </span>
-          </div>
+          <div className="max-w-5xl">
+            <div className="flex items-center gap-3 mb-5">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#EC4899]" />
 
-          <h1 className="text-5xl sm:text-7xl lg:text-8xl font-extrabold font-heading tracking-tighter uppercase text-[#F4F4F0] leading-[0.9]">
-            ENGINEERING <span className="accent-gradient-text">& PHILOSOPHY</span>
-          </h1>
+              <span className="font-heading text-xs tracking-[0.3em] text-[#A0A0A0] uppercase">
+                [ 01 // PROFILE ]
+              </span>
+            </div>
 
-          <p className="max-w-2xl text-base sm:text-lg text-[#A0A0A0] font-light leading-relaxed pt-2">
-            A comprehensive overview of full-stack engineering expertise, system architecture,
-            and technological specialization.
-          </p>
-        </div>
+            <h1 className="text-5xl sm:text-7xl lg:text-8xl font-extrabold font-heading tracking-tighter uppercase leading-[0.9]">
+              OMAIR <span className="accent-gradient-text">KHAN</span>
+            </h1>
 
-        {/* Section 1: Overview & Identity */}
-        <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          <div className="lg:col-span-4">
-            <h2 className="text-xl sm:text-2xl font-bold font-heading uppercase text-[#F4F4F0] tracking-tight">
-              01 // BIOGRAPHY & FOCUS
+            <h2 className="mt-5 text-lg sm:text-xl font-heading font-bold tracking-widest text-[#8B5CF6] uppercase">
+              {profile.role}
             </h2>
-            <span className="text-xs font-heading tracking-widest text-[#8B5CF6] uppercase block mt-1">
-              WHO I AM & BACKGROUND
-            </span>
-          </div>
-          <div className="lg:col-span-8 bg-[#0c0c0e] border border-[rgba(244,244,240,0.12)] rounded-3xl p-8 sm:p-10 flex flex-col gap-6">
-            <p className="text-base text-[#F4F4F0]/90 font-light leading-relaxed">
-              [ PLACEHOLDER: Detailed personal introduction & developer summary ]
+
+            <p className="mt-6 max-w-3xl text-base sm:text-lg text-[#A0A0A0] leading-relaxed">
+              {profile.intro}
             </p>
-            <p className="text-sm text-[#A0A0A0] font-light leading-relaxed border-t border-[rgba(244,244,240,0.08)] pt-4">
-              [ PLACEHOLDER: Full-Stack background, core driving motivations, and engineering approach ]
+
+            <p className="mt-4 max-w-3xl text-sm sm:text-base text-[#606060] leading-relaxed">
+              {profile.description}
             </p>
           </div>
         </section>
 
-        {/* Section 2: Technical Domains & Architecture */}
-        <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          <div className="lg:col-span-4">
-            <h2 className="text-xl sm:text-2xl font-bold font-heading uppercase text-[#F4F4F0] tracking-tight">
-              02 // CORE CAPABILITIES
-            </h2>
-            <span className="text-xs font-heading tracking-widest text-[#EC4899] uppercase block mt-1">
-              STACK & SYSTEM DESIGN
-            </span>
-          </div>
+        {/* =====================================================
+            ABOUT
+        ====================================================== */}
+        <section className="grid lg:grid-cols-12 gap-10 py-20">
+          <SectionTitle number="02" label="ABOUT" title="WHO I AM" />
 
-          <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {/* Capability Box 1 */}
-            <div className="bg-[#0c0c0e] border border-[rgba(244,244,240,0.1)] rounded-2xl p-6 flex flex-col gap-3">
-              <h3 className="font-heading text-base font-bold text-[#F4F4F0] uppercase tracking-wider">
-                MERN STACK EXPERTISE
-              </h3>
-              <p className="text-xs text-[#A0A0A0] leading-relaxed">
-                [ PLACEHOLDER: React, Node.js, Express, MongoDB, Next.js, TypeScript architecture details ]
-              </p>
+          <div className="lg:col-span-8">
+            <div className="bg-[#0c0c0e] border border-[rgba(244,244,240,0.1)] rounded-3xl p-7 sm:p-10">
+              {about.paragraphs.map((paragraph) => (
+                <p
+                  key={paragraph}
+                  className="text-sm sm:text-base text-[#A0A0A0] leading-relaxed mb-6 last:mb-0"
+                >
+                  {paragraph}
+                </p>
+              ))}
             </div>
 
-            {/* Capability Box 2 */}
-            <div className="bg-[#0c0c0e] border border-[rgba(244,244,240,0.1)] rounded-2xl p-6 flex flex-col gap-3">
-              <h3 className="font-heading text-base font-bold text-[#F4F4F0] uppercase tracking-wider">
-                AI DEVELOPMENT & AGENTS
-              </h3>
-              <p className="text-xs text-[#A0A0A0] leading-relaxed">
-                [ PLACEHOLDER: Intelligent workflows, LLM integration, agentic tooling, and AI system design ]
-              </p>
-            </div>
+            <div className="grid sm:grid-cols-2 gap-4 mt-5">
+              {about.traits.map((trait) => (
+                <div
+                  key={trait.title}
+                  className="bg-[#0c0c0e] border border-[rgba(244,244,240,0.08)] rounded-2xl p-6"
+                >
+                  <span className="text-[10px] font-heading tracking-[0.25em] text-[#EC4899] uppercase">
+                    {trait.title}
+                  </span>
 
-            {/* Capability Box 3 */}
-            <div className="bg-[#0c0c0e] border border-[rgba(244,244,240,0.1)] rounded-2xl p-6 flex flex-col gap-3">
-              <h3 className="font-heading text-base font-bold text-[#F4F4F0] uppercase tracking-wider">
-                DIGITAL ADOPTION PLATFORM / ADOP SDK
-              </h3>
-              <p className="text-xs text-[#A0A0A0] leading-relaxed">
-                [ PLACEHOLDER: Builder engine, runtime element inspection, step flows, and SDK architecture ]
-              </p>
-            </div>
-
-            {/* Capability Box 4 */}
-            <div className="bg-[#0c0c0e] border border-[rgba(244,244,240,0.1)] rounded-2xl p-6 flex flex-col gap-3">
-              <h3 className="font-heading text-base font-bold text-[#F4F4F0] uppercase tracking-wider">
-                EDU ERP & SAAS ARCHITECTURE
-              </h3>
-              <p className="text-xs text-[#A0A0A0] leading-relaxed">
-                [ PLACEHOLDER: Multi-tenant database patterns, RBAC, subscription licensing, and SaaS scale ]
-              </p>
+                  <p className="mt-3 text-sm text-[#A0A0A0] leading-relaxed">
+                    {trait.text}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* Section 3: Engineering Deep Dives */}
-        <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          <div className="lg:col-span-4">
-            <h2 className="text-xl sm:text-2xl font-bold font-heading uppercase text-[#F4F4F0] tracking-tight">
-              03 // BACKEND & DEVOPS
-            </h2>
-            <span className="text-xs font-heading tracking-widest text-[#84cc16] uppercase block mt-1">
-              INFRASTRUCTURE & SECURITY
-            </span>
-          </div>
+        {/* =====================================================
+            SKILLS
+        ====================================================== */}
+        <section className="grid lg:grid-cols-12 gap-10 py-20">
+          <SectionTitle number="03" label="STACK" title="TECHNICAL SKILLS" />
 
-          <div className="lg:col-span-8 bg-[#0c0c0e] border border-[rgba(244,244,240,0.1)] rounded-3xl p-8 sm:p-10 flex flex-col gap-6">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 border-b border-[rgba(244,244,240,0.08)] pb-6">
-              <div>
-                <span className="text-xs font-heading text-[#A0A0A0] uppercase block">BACKEND & API</span>
-                <span className="text-sm font-semibold text-[#F4F4F0]">[ PLACEHOLDER ]</span>
+          <div className="lg:col-span-8 grid sm:grid-cols-2 gap-5">
+            {skills.map((group) => (
+              <div
+                key={group.category}
+                className="bg-[#0c0c0e] border border-[rgba(244,244,240,0.1)] rounded-2xl p-6"
+              >
+                <div className="flex justify-between items-center border-b border-[rgba(244,244,240,0.08)] pb-3">
+                  <h3 className="font-heading text-xs font-bold text-[#8B5CF6] tracking-widest uppercase">
+                    {group.category}
+                  </h3>
+
+                  <span className="text-[10px] text-[#505050] font-heading">
+                    {String(group.skills.length).padStart(2, "0")}
+                  </span>
+                </div>
+
+                <div className="flex flex-wrap gap-2 pt-4">
+                  {group.skills.map((skill) => (
+                    <span
+                      key={skill}
+                      className="px-3 py-1.5 rounded-full bg-[rgba(244,244,240,0.04)] border border-[rgba(244,244,240,0.08)] text-xs text-[#D0D0CC]"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
               </div>
-              <div>
-                <span className="text-xs font-heading text-[#A0A0A0] uppercase block">RBAC & MULTI-TENANCY</span>
-                <span className="text-sm font-semibold text-[#F4F4F0]">[ PLACEHOLDER ]</span>
+            ))}
+          </div>
+        </section>
+
+        {/* =====================================================
+            EXPERIENCE
+        ====================================================== */}
+        <section className="grid lg:grid-cols-12 gap-10 py-20">
+          <SectionTitle
+            number="04"
+            label="EXPERIENCE"
+            title="WORK EXPERIENCE"
+          />
+
+          <div className="lg:col-span-8">
+            <div className="bg-[#0c0c0e] border border-[rgba(244,244,240,0.1)] rounded-3xl p-7 sm:p-10">
+              <div className="flex flex-col sm:flex-row justify-between gap-4 pb-6 border-b border-[rgba(244,244,240,0.08)]">
+                <div>
+                  <h3 className="font-heading text-xl font-bold uppercase">
+                    {experience.company}
+                  </h3>
+
+                  <p className="mt-1 text-xs text-[#8B5CF6] font-heading tracking-widest uppercase">
+                    {experience.role}
+                  </p>
+                </div>
+
+                <div className="text-xs text-[#606060] font-heading tracking-widest uppercase sm:text-right">
+                  <p>{experience.duration}</p>
+                  <p className="mt-1">{experience.location}</p>
+                </div>
               </div>
-              <div>
-                <span className="text-xs font-heading text-[#A0A0A0] uppercase block">DEVOPS & SECURITY</span>
-                <span className="text-sm font-semibold text-[#F4F4F0]">[ PLACEHOLDER ]</span>
+
+              <div className="mt-7 space-y-5">
+                {experience.highlights.map((item, index) => (
+                  <div
+                    key={item}
+                    className="flex gap-4 text-sm text-[#A0A0A0] leading-relaxed"
+                  >
+                    <span className="text-[#EC4899] font-heading text-xs">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+
+                    <p>{item}</p>
+                  </div>
+                ))}
               </div>
             </div>
-
-            <p className="text-sm text-[#A0A0A0] font-light leading-relaxed">
-              [ PLACEHOLDER: In-depth breakdown of API design, caching layers, microservices, containerization, and data security protocols ]
-            </p>
           </div>
         </section>
 
-        {/* Section 4: Engineering Philosophy & Technical Interests */}
-        <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          <div className="lg:col-span-4">
-            <h2 className="text-xl sm:text-2xl font-bold font-heading uppercase text-[#F4F4F0] tracking-tight">
-              04 // PHILOSOPHY & INTERESTS
-            </h2>
-            <span className="text-xs font-heading tracking-widest text-[#3B82F6] uppercase block mt-1">
-              CONTINUOUS LEARNING
-            </span>
-          </div>
+        {/* =====================================================
+            EDUCATION
+        ====================================================== */}
+        <section className="grid lg:grid-cols-12 gap-10 py-20">
+          <SectionTitle number="05" label="EDUCATION" title="ACADEMICS" />
 
-          <div className="lg:col-span-8 bg-[#0c0c0e] border border-[rgba(244,244,240,0.1)] rounded-3xl p-8 sm:p-10 flex flex-col gap-6">
-            <p className="text-sm text-[#F4F4F0]/90 font-light leading-relaxed">
-              [ PLACEHOLDER: Engineering principles, code readability, performance discipline, and architectural clarity ]
-            </p>
-            <p className="text-xs text-[#A0A0A0] font-light leading-relaxed">
-              [ PLACEHOLDER: Current technical research, active learning subjects, and future tech stack exploration ]
-            </p>
+          <div className="lg:col-span-8 space-y-4">
+            {education.map((item) => (
+              <div
+                key={`${item.institution}-${item.duration}`}
+                className="bg-[#0c0c0e] border border-[rgba(244,244,240,0.08)] rounded-2xl p-6 sm:p-7"
+              >
+                <div className="flex flex-col sm:flex-row justify-between gap-4">
+                  <div>
+                    <span className="text-[10px] font-heading tracking-[0.25em] text-[#8B5CF6] uppercase">
+                      {item.type}
+                    </span>
+
+                    <h3 className="mt-2 font-heading font-bold uppercase">
+                      {item.institution}
+                    </h3>
+
+                    <p className="mt-1 text-sm text-[#A0A0A0]">{item.degree}</p>
+                  </div>
+
+                  <span className="text-xs text-[#606060] font-heading tracking-widest">
+                    {item.duration}
+                  </span>
+                </div>
+              </div>
+            ))}
           </div>
         </section>
 
-        {/* Bottom Navigation CTA */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-6 border-t border-[rgba(244,244,240,0.08)] pt-12">
-          <Link
-            to="/work"
-            className="pill-button group cursor-pointer"
-          >
-            <span>EXPLORE SELECTED WORK</span>
-            <svg
-              className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
+        {/* =====================================================
+            PROJECTS
+        ====================================================== */}
+        <section className="grid lg:grid-cols-12 gap-10 py-20">
+          <SectionTitle number="06" label="PROJECTS" title="FEATURED WORK" />
+
+          <div className="lg:col-span-8 space-y-5">
+            {projects.map((project, index) => (
+              <div
+                key={project.title}
+                className="bg-[#0c0c0e] border border-[rgba(244,244,240,0.1)] rounded-3xl p-7 sm:p-8"
+              >
+                <div className="flex flex-col sm:flex-row justify-between gap-5 pb-5 border-b border-[rgba(244,244,240,0.08)]">
+                  <div className="flex gap-4">
+                    <span className="text-xs text-[#505050] font-heading">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+
+                    <div>
+                      <h3 className="font-heading text-lg font-bold uppercase">
+                        {project.title}
+                      </h3>
+
+                      <p className="mt-1 text-xs text-[#EC4899] font-heading tracking-widest uppercase">
+                        {project.subtitle}
+                      </p>
+                    </div>
+                  </div>
+
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-fit px-4 py-1.5 rounded-full border border-[rgba(244,244,240,0.2)] text-[11px] font-heading tracking-widest uppercase hover:bg-[#F4F4F0] hover:text-[#050505] transition-all"
+                  >
+                    LIVE DEMO ↗
+                  </a>
+                </div>
+
+                <div className="flex flex-wrap gap-2 mt-5">
+                  {project.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="px-2.5 py-1 rounded-full bg-[rgba(244,244,240,0.04)] border border-[rgba(244,244,240,0.08)] text-[11px] text-[#A0A0A0]"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* =====================================================
+            VISION
+        ====================================================== */}
+        <section className="grid lg:grid-cols-12 gap-10 py-20">
+          <SectionTitle number="07" label="DIRECTION" title="MY VISION" />
+
+          <div className="lg:col-span-8">
+            <div className="bg-[#0c0c0e] border border-[rgba(244,244,240,0.1)] rounded-3xl p-7 sm:p-10">
+              <p className="text-base sm:text-lg text-[#F4F4F0]/90 leading-relaxed">
+                {vision.description}
+              </p>
+
+              <div className="grid sm:grid-cols-3 gap-6 mt-10">
+                {vision.points.map((point) => (
+                  <div
+                    key={point.title}
+                    className="border-t border-[rgba(244,244,240,0.1)] pt-4"
+                  >
+                    <span className="text-[10px] font-heading tracking-[0.25em] text-[#84cc16] uppercase">
+                      {point.title}
+                    </span>
+
+                    <p className="mt-2 text-sm text-[#A0A0A0] leading-relaxed">
+                      {point.text}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA */}
+        <section className="border-t border-[rgba(244,244,240,0.08)] pt-10 flex justify-between items-center gap-6">
+          <div>
+            <p className="text-[10px] text-[#505050] font-heading tracking-[0.25em] uppercase">
+              END OF PROFILE
+            </p>
+
+            <h3 className="mt-2 text-xl font-heading font-bold uppercase">
+              BACK TO THE WORK
+            </h3>
+          </div>
+
+          <Link to="/" className="pill-button group">
+            ← BACK TO HOME
           </Link>
-
-          <Link
-            to="/contact"
-            className="text-xs font-heading tracking-widest text-[#EC4899] uppercase hover:underline cursor-pointer"
-          >
-            INITIATE COLLABORATION →
-          </Link>
-        </div>
+        </section>
       </main>
 
-      {/* Footer */}
       <Footer />
+    </div>
+  );
+};
+
+/* =========================================================
+   REUSABLE SECTION TITLE
+========================================================= */
+
+const SectionTitle = ({ number, label, title }) => {
+  return (
+    <div className="lg:col-span-4">
+      <div className="flex items-center gap-3 mb-2">
+        <span className="w-2 h-2 rounded-full bg-[#8B5CF6]" />
+
+        <span className="font-heading text-xs tracking-[0.25em] text-[#A0A0A0] uppercase">
+          [ {number} // {label} ]
+        </span>
+      </div>
+
+      <h2 className="text-3xl sm:text-4xl font-extrabold font-heading uppercase tracking-tight">
+        {title}
+      </h2>
     </div>
   );
 };

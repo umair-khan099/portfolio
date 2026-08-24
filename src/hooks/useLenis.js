@@ -27,6 +27,7 @@ export function useLenis() {
     });
 
     lenisRef.current = lenis;
+    window.lenis = lenis;
 
     // Keep ScrollTrigger synchronized with Lenis
     const handleScroll = () => {
@@ -52,6 +53,7 @@ export function useLenis() {
 
       lenis.destroy();
       lenisRef.current = null;
+      window.lenis = null;
     };
   }, []);
 

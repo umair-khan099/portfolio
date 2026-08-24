@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useLayoutEffect, useRef } from "react";
 import { servicesData } from "../../data/services";
 import { initServicesAnimations } from "../../animations/servicesAnimations";
 
@@ -7,7 +7,7 @@ export const Services = () => {
   const headingRef = useRef(null);
   const rowsRef = useRef([]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const ctx = initServicesAnimations({
       containerRef,
       headingRef,

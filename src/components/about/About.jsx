@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { initAboutAnimations } from '../../animations/aboutAnimations';
 
 export const About = () => {
@@ -10,7 +11,7 @@ export const About = () => {
   const deco2Ref = useRef(null);
   const deco3Ref = useRef(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const ctx = initAboutAnimations({
       containerRef,
       headingRef,
@@ -79,10 +80,9 @@ export const About = () => {
           </p>
 
           <div ref={ctaRef} className="pt-2">
-            <a
-              href="#services"
-              onClick={(e) => e.preventDefault()}
-              className="pill-button group"
+            <Link
+              to="/about"
+              className="pill-button group cursor-pointer"
             >
               <span>MORE ABOUT ME</span>
               <svg
@@ -93,7 +93,7 @@ export const About = () => {
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
-            </a>
+            </Link>
           </div>
         </div>
 

@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 import { Navigation } from '../layout/Navigation';
-import { HeroScene } from './HeroScene';
+import { TechOrbit } from './TechOrbit';
 import { siteData } from '../../data/site';
 import { initHeroEntrance, initHeroScrollTransition } from '../../animations/heroAnimations';
 
@@ -9,7 +9,7 @@ export const Hero = () => {
   const heroContentRef = useRef(null);
   const objectWrapperRef = useRef(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // 1. Entrance masked reveal timeline
     const entranceCtx = initHeroEntrance({ containerRef: heroContainerRef });
 
@@ -76,8 +76,11 @@ export const Hero = () => {
             {/* Pill CTA Button */}
             <a
               href="#contact"
-              onClick={(e) => e.preventDefault()}
-              className="hero-cta pill-button group shrink-0"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="hero-cta pill-button group shrink-0 cursor-pointer"
             >
               <span>CONTACT ME</span>
               <svg
@@ -92,12 +95,12 @@ export const Hero = () => {
           </div>
         </div>
 
-        {/* Right Column: Interactive 3D Canvas */}
+        {/* Right Column: Tech Icon Orbit */}
         <div
           ref={objectWrapperRef}
           className="hero-3d lg:col-span-5 h-[350px] sm:h-[450px] lg:h-[550px] w-full flex items-center justify-center relative pointer-events-auto"
         >
-          <HeroScene />
+          <TechOrbit />
         </div>
       </div>
 

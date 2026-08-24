@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useLayoutEffect, useRef } from "react";
 import { projectsData } from "../../data/projects";
 import { ProjectCard } from "./ProjectCard";
 import { initProjectStackAnimations } from "../../animations/projectAnimations";
@@ -8,7 +8,7 @@ export const Projects = () => {
   const headingRef = useRef(null);
   const cardsRef = useRef([]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const ctx = initProjectStackAnimations({
       containerRef,
       headingRef,

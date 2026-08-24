@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 import { testimonialsData } from '../../data/testimonials';
 import { initTestimonialAnimations } from '../../animations/testimonialAnimations';
 
@@ -7,7 +7,7 @@ export const Testimonials = () => {
   const headingRef = useRef(null);
   const cardsRef = useRef([]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const ctx = initTestimonialAnimations({
       containerRef,
       headingRef,
