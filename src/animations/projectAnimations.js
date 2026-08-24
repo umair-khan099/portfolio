@@ -7,21 +7,24 @@ gsap.registerPlugin(ScrollTrigger);
  * Signature stacked project animation.
  *
  * Behaviour:
- * - Project section pins during the stack sequence.
- * - First card is active initially.
+ * - Stage pins when it reaches top of viewport.
+ * - Heading scrolls naturally above stage.
+ * - First card is active initially, 100% visible inside viewport.
  * - Each next card rises smoothly from below.
  * - Previous card subtly recedes.
  * - Animation is driven by scroll progress.
  */
 export const initProjectStackAnimations = ({
   containerRef,
+  stageRef,
   headingRef,
   cardsRef,
 }) => {
   const ctx = gsap.context(() => {
     const container = containerRef.current;
+    const stage = stageRef?.current || container?.querySelector(".project-stage");
 
-    if (!container) return;
+    if (!container || !stage) return;
 
     const isReduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
@@ -84,8 +87,8 @@ export const initProjectStackAnimations = ({
           ease: "power3.out",
 
           scrollTrigger: {
-            trigger: container,
-            start: "top 82%",
+            trigger: headingRef.current,
+            start: "top 85%",
             once: true,
           },
         },
@@ -96,7 +99,7 @@ export const initProjectStackAnimations = ({
     // INITIAL CARD STATES
     // ==================================================
 
-    // First card is already active.
+    // First card is active at center of stage.
     gsap.set(cards[0], {
       x: 0,
       y: 0,
@@ -110,7 +113,7 @@ export const initProjectStackAnimations = ({
     cards.slice(1).forEach((card, index) => {
       gsap.set(card, {
         x: 0,
-        y: "82vh",
+        y: "100vh",
         yPercent: 0,
         scale: 0.94,
         opacity: 1,
@@ -141,7 +144,7 @@ export const initProjectStackAnimations = ({
     ];
 
     // ==================================================
-    // MAIN STACK TIMELINE
+    // MAIN STACK TIMELINE (PINNING PROJECT STAGE)
     // ==================================================
 
     const totalTransitions = Math.max(cards.length - 1, 1);
@@ -149,18 +152,17 @@ export const initProjectStackAnimations = ({
 
     const stackTl = gsap.timeline({
       scrollTrigger: {
-        trigger: container,
+        trigger: stage,
 
         start: "top top",
 
         // Total scroll distance includes transitions plus hold duration.
         end: `+=${(totalTransitions + holdDuration) * 100}%`,
 
-        pin: true,
+        pin: stage,
         pinSpacing: true,
 
         // Scroll-linked animation needs scrub.
-        // Keep it responsive because Lenis already smooths wheel input.
         scrub: 0.25,
 
         anticipatePin: 1,
@@ -256,4 +258,3 @@ export const initProjectStackAnimations = ({
 
   return ctx;
 };
-  

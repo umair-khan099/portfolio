@@ -21,7 +21,7 @@ export const servicesData = [
     number: "02",
     title: "AI & INTELLIGENT SYSTEMS",
     description:
-      "I build applications that use AI for more than just a chatbot — connecting LLMs, APIs, prompts, conversations, and application data into useful product workflows.",
+      "I build applications that use AI for more than just a chatbot  connecting LLMs, APIs, prompts, conversations, and application data into useful product workflows.",
     tags: [
       "LLM Integration",
       "AI Applications",
@@ -38,7 +38,7 @@ export const servicesData = [
     number: "03",
     title: "SCALABLE SYSTEMS & SAAS",
     description:
-      "I work on backend systems where things get more complex — multiple tenants, different user roles, permissions, subscriptions, and business data that needs to stay properly separated.",
+      "I work on backend systems where things get more complex  multiple tenants, different user roles, permissions, subscriptions, and business data that needs to stay properly separated.",
     tags: [
       "Multi-Tenancy",
       "SaaS Architecture",

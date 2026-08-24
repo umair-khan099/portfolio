@@ -77,7 +77,7 @@ export const ProjectCard = React.forwardRef(({ project, index }, ref) => {
       target={project.link.startsWith("http") ? "_blank" : undefined}
       rel={project.link.startsWith("http") ? "noopener noreferrer" : undefined}
       aria-label={`View ${project.title} - ${project.category}`}
-      className="project-card group relative block w-[90vw] sm:w-[85vw] lg:w-[78vw] max-w-5xl h-[70vh] sm:h-[74vh] max-h-[640px] bg-[#0c0c0e] border border-[rgba(244,244,240,0.14)] rounded-[24px] sm:rounded-[32px] p-5 sm:p-8 lg:p-9 flex flex-col justify-between overflow-hidden shadow-2xl pointer-events-auto no-underline text-inherit cursor-pointer select-text"
+      className="project-card group relative block w-[90vw] sm:w-[85vw] lg:w-[78vw] max-w-5xl h-[68vh] sm:h-[72vh] max-h-[600px] bg-[#0c0c0e] border border-[rgba(244,244,240,0.14)] rounded-[24px] sm:rounded-[32px] p-5 sm:p-7 lg:p-8 flex flex-col justify-between overflow-hidden shadow-2xl pointer-events-auto no-underline text-inherit cursor-pointer select-text"
       style={{ willChange: "transform" }}
     >
       {/* Compact Floating Cursor-Follow CTA */}

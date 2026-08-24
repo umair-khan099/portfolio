@@ -5,12 +5,14 @@ import { initProjectStackAnimations } from "../../animations/projectAnimations";
 
 export const Projects = () => {
   const containerRef = useRef(null);
+  const stageRef = useRef(null);
   const headingRef = useRef(null);
   const cardsRef = useRef([]);
 
   useLayoutEffect(() => {
     const ctx = initProjectStackAnimations({
       containerRef,
+      stageRef,
       headingRef,
       cardsRef,
     });
@@ -22,7 +24,7 @@ export const Projects = () => {
     <section
       ref={containerRef}
       id="work"
-      className="relative w-full min-h-screen bg-[#050505] text-[#F4F4F0] py-20 px-4 sm:px-8 lg:px-12 flex flex-col items-center justify-start select-none"
+      className="relative w-full bg-[#050505] text-[#F4F4F0] pt-20 pb-12 px-4 sm:px-8 lg:px-12 flex flex-col items-center justify-start select-none"
     >
       {/* Section Header */}
       <div
@@ -41,7 +43,10 @@ export const Projects = () => {
       </div>
 
       {/* Sticky Project Stacking Stage Container */}
-      <div className="project-stage relative w-full h-[80vh] flex items-center justify-center">
+      <div
+        ref={stageRef}
+        className="project-stage relative w-full h-screen flex items-center justify-center overflow-hidden"
+      >
         {projectsData.map((project, index) => (
           <div
             key={project.id}
