@@ -101,7 +101,7 @@ export const About = () => {
 
       {/* Decorative Editorial Watermark */}
       <div className="absolute bottom-6 right-10 text-[10vw] font-bold font-heading text-[rgba(244,244,240,0.02)] pointer-events-none select-none uppercase tracking-tighter">
-        VANCE ARCHITECTURE
+        OMAIR ARCHITECTURE
       </div>
     </section>
   );

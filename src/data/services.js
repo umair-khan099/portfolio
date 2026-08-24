@@ -4,7 +4,7 @@ export const servicesData = [
     number: "01",
     title: "FULL STACK DEVELOPMENT",
     description:
-      "Building scalable full-stack applications with React, Node.js, Express, MongoDB, and PostgreSQL, with clean architecture, secure APIs, authentication, RBAC, and production-ready backend systems.",
+      "I build complete web applications, from React interfaces and REST APIs to authentication, databases, and the backend logic that connects everything together.",
     tags: [
       "React",
       "Node.js",
@@ -21,7 +21,7 @@ export const servicesData = [
     number: "02",
     title: "AI & INTELLIGENT SYSTEMS",
     description:
-      "Building AI-powered applications and intelligent workflows by integrating LLMs, prompt engineering, conversational systems, AI APIs, and context-aware backend architectures into real products.",
+      "I build applications that use AI for more than just a chatbot — connecting LLMs, APIs, prompts, conversations, and application data into useful product workflows.",
     tags: [
       "LLM Integration",
       "AI Applications",
@@ -38,7 +38,7 @@ export const servicesData = [
     number: "03",
     title: "SCALABLE SYSTEMS & SAAS",
     description:
-      "Designing multi-tenant SaaS platforms and complex business systems with modular backend architecture, tenant isolation, subscription workflows, role-based access control, and structured data models.",
+      "I work on backend systems where things get more complex — multiple tenants, different user roles, permissions, subscriptions, and business data that needs to stay properly separated.",
     tags: [
       "Multi-Tenancy",
       "SaaS Architecture",
@@ -53,17 +53,17 @@ export const servicesData = [
   {
     id: "04",
     number: "04",
-    title: "DEVELOPER TOOLS & INFRASTRUCTURE",
+    title: "DEVELOPER TOOLS & SDKS",
     description:
-      "Engineering reusable developer platforms, SDKs, secure integrations, and production infrastructure with a focus on performance, maintainability, observability, security, and reliable deployment workflows.",
+      "I build reusable developer tools and JavaScript SDKs that sit between an application and the systems behind it, with a focus on clean APIs, browser behaviour, integrations, and maintainable code.",
     tags: [
       "SDK Development",
+      "JavaScript",
       "API Architecture",
+      "Browser APIs",
+      "Developer Tooling",
       "Security",
-      "DevOps",
-      "CI/CD",
-      "Docker",
-      "Cloud Deployment",
+      "Deployment",
     ],
   },
 ];
