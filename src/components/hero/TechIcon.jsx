@@ -23,7 +23,7 @@ export const TechIcon = ({
       }}
       className={`
         tech-icon-item
-        absolute
+        relative
         flex items-center
         gap-3
         px-5 py-3.5

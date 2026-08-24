@@ -196,7 +196,7 @@ const techData = [
       top: "80%",
       left: "50%",
       transform: "translateX(-50%)",
-    },    
+    },
     float: { y: -15, rotate: -4, scale: 1.03, duration: 3.6, delay: 0.4 },
     icon: () => (
       <svg
@@ -226,31 +226,165 @@ const techData = [
 
 export const TechOrbit = () => {
   const containerRef = useRef(null);
+  const wrappersRef = useRef([]);
+  const mouseRef = useRef({ x: 0, y: 0, isHovering: false });
+  const offsetsRef = useRef(techData.map(() => ({ x: 0, y: 0 })));
+  const homePosRef = useRef([]);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
+      // 1. Organic Floating Animation on inner TechIcon elements
       const icons = containerRef.current?.querySelectorAll(".tech-icon-item");
-      if (!icons) return;
-
-      icons.forEach((icon, i) => {
-        const spec = techData[i]?.float || {
-          y: -14,
-          rotate: 3,
-          scale: 1.04,
-          duration: 3.6,
-          delay: 0,
-        };
-        gsap.to(icon, {
-          y: spec.y,
-          rotate: spec.rotate,
-          scale: spec.scale,
-          duration: spec.duration,
-          delay: spec.delay,
-          repeat: -1,
-          yoyo: true,
-          ease: "sine.inOut",
+      if (icons) {
+        icons.forEach((icon, i) => {
+          const spec = techData[i]?.float || {
+            y: -14,
+            rotate: 3,
+            scale: 1.04,
+            duration: 3.6,
+            delay: 0,
+          };
+          gsap.to(icon, {
+            y: spec.y,
+            rotate: spec.rotate,
+            scale: spec.scale,
+            duration: spec.duration,
+            delay: spec.delay,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut",
+          });
         });
-      });
+      }
+
+      // Find the parent Hero section element to expand interaction space across full Hero
+      const heroEl =
+        containerRef.current?.closest("section") || containerRef.current;
+
+      // 2. Measure home orbit positions of card wrappers relative to full Hero section
+      const measureHomePositions = () => {
+        if (!heroEl) return;
+        const heroRect = heroEl.getBoundingClientRect();
+        homePosRef.current = wrappersRef.current.map((wrapper, i) => {
+          if (!wrapper) return { x: 0, y: 0 };
+          const rect = wrapper.getBoundingClientRect();
+          const currentOffset = offsetsRef.current[i] || { x: 0, y: 0 };
+          return {
+            x: rect.left + rect.width / 2 - heroRect.left - currentOffset.x,
+            y: rect.top + rect.height / 2 - heroRect.top - currentOffset.y,
+          };
+        });
+      };
+
+      measureHomePositions();
+
+      // 3. Hero Section Mouse Event Listeners
+      const handleMouseMove = (e) => {
+        if (!heroEl) return;
+        const heroRect = heroEl.getBoundingClientRect();
+        mouseRef.current.x = e.clientX - heroRect.left;
+        mouseRef.current.y = e.clientY - heroRect.top;
+        mouseRef.current.isHovering = true;
+      };
+
+      const handleMouseLeave = () => {
+        mouseRef.current.isHovering = false;
+      };
+
+      const handleResize = () => {
+        measureHomePositions();
+      };
+
+      if (heroEl) {
+        heroEl.addEventListener("mousemove", handleMouseMove);
+        heroEl.addEventListener("mouseleave", handleMouseLeave);
+      }
+      window.addEventListener("resize", handleResize);
+
+      // 4. GSAP Ticker Physics Loop for Trailing Magnetic Chain
+      const lerpFactors = [0.18, 0.12, 0.09, 0.07, 0.055, 0.045];
+      const spacing = 110; // Spacing distance between cards in chain
+
+      const updateChain = () => {
+        // Skip mouse follow on mobile / non-fine pointer devices
+        const isDesktop = window.matchMedia("(pointer: fine)").matches;
+        if (!isDesktop) return;
+
+        const homePos = homePosRef.current;
+        if (!homePos || homePos.length < techData.length) return;
+
+        const isHovering = mouseRef.current.isHovering;
+
+        // Calculate target positions for each card relative to full Hero coordinates
+        const targetOffsets = techData.map(() => ({ x: 0, y: 0 }));
+
+        if (isHovering) {
+          // Card 0 targets mouse position directly in Hero
+          const mouseX = mouseRef.current.x;
+          const mouseY = mouseRef.current.y;
+
+          targetOffsets[0] = {
+            x: mouseX - homePos[0].x,
+            y: mouseY - homePos[0].y,
+          };
+
+          // Cards 1..5 target position behind preceding card along trailing vector
+          for (let i = 1; i < techData.length; i++) {
+            const prevAbsX = homePos[i - 1].x + offsetsRef.current[i - 1].x;
+            const prevAbsY = homePos[i - 1].y + offsetsRef.current[i - 1].y;
+
+            let dx, dy;
+            if (i === 1) {
+              dx = prevAbsX - mouseX;
+              dy = prevAbsY - mouseY;
+            } else {
+              const pPrevAbsX = homePos[i - 2].x + offsetsRef.current[i - 2].x;
+              const pPrevAbsY = homePos[i - 2].y + offsetsRef.current[i - 2].y;
+              dx = prevAbsX - pPrevAbsX;
+              dy = prevAbsY - pPrevAbsY;
+            }
+
+            const dist = Math.hypot(dx, dy);
+            const dirX = dist > 0.01 ? dx / dist : 0;
+            const dirY = dist > 0.01 ? dy / dist : 1;
+
+            const targetAbsX = prevAbsX + dirX * spacing;
+            const targetAbsY = prevAbsY + dirY * spacing;
+
+            targetOffsets[i] = {
+              x: targetAbsX - homePos[i].x,
+              y: targetAbsY - homePos[i].y,
+            };
+          }
+        }
+
+        // Lerp offsets towards targets and apply directly to DOM
+        for (let i = 0; i < techData.length; i++) {
+          const ease = isHovering ? lerpFactors[i] : 0.06;
+          offsetsRef.current[i].x +=
+            (targetOffsets[i].x - offsetsRef.current[i].x) * ease;
+          offsetsRef.current[i].y +=
+            (targetOffsets[i].y - offsetsRef.current[i].y) * ease;
+
+          if (wrappersRef.current[i]) {
+            gsap.set(wrappersRef.current[i], {
+              x: offsetsRef.current[i].x,
+              y: offsetsRef.current[i].y,
+            });
+          }
+        }
+      };
+
+      gsap.ticker.add(updateChain);
+
+      return () => {
+        gsap.ticker.remove(updateChain);
+        if (heroEl) {
+          heroEl.removeEventListener("mousemove", handleMouseMove);
+          heroEl.removeEventListener("mouseleave", handleMouseLeave);
+        }
+        window.removeEventListener("resize", handleResize);
+      };
     }, containerRef);
 
     return () => ctx.revert();
@@ -270,16 +404,24 @@ export const TechOrbit = () => {
       {/* Orbital Decorative Ellipse Track */}
       <div className="absolute w-[86%] h-[82%] rounded-[50%] border border-[rgba(244,244,240,0.07)] pointer-events-none z-0" />
 
-      {/* Render 6 Technology Floating Objects */}
-      {techData.map((tech) => (
-        <TechIcon
+      {/* Render 6 Technology Floating Objects with Outer Follow Wrappers */}
+      {techData.map((tech, i) => (
+        <div
           key={tech.id}
-          name={tech.name}
-          icon={tech.icon}
-          color={tech.color}
-          glowColor={tech.glowColor}
-          style={tech.pos}
-        />
+          ref={(el) => (wrappersRef.current[i] = el)}
+          className="tech-follow-wrapper absolute pointer-events-auto z-50"
+          style={{
+            ...tech.pos,
+            willChange: "transform",
+          }}
+        >
+          <TechIcon
+            name={tech.name}
+            icon={tech.icon}
+            color={tech.color}
+            glowColor={tech.glowColor}
+          />
+        </div>
       ))}
     </div>
   );
