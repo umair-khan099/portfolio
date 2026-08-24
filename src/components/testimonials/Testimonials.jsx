@@ -1,17 +1,17 @@
-import React, { useLayoutEffect, useRef } from 'react';
-import { testimonialsData } from '../../data/testimonials';
-import { initTestimonialAnimations } from '../../animations/testimonialAnimations';
+import React, { useLayoutEffect, useRef } from "react";
+import { testimonialsData } from "../../data/testimonials";
+import { initTestimonialAnimations } from "../../animations/testimonialAnimations";
 
 export const Testimonials = () => {
   const containerRef = useRef(null);
   const headingRef = useRef(null);
-  const cardsRef = useRef([]);
+  const trackRef = useRef(null);
 
   useLayoutEffect(() => {
     const ctx = initTestimonialAnimations({
       containerRef,
       headingRef,
-      cardsRef
+      trackRef,
     });
 
     return () => ctx.revert();
@@ -21,66 +21,94 @@ export const Testimonials = () => {
     <section
       ref={containerRef}
       id="testimonials"
-      className="relative w-full min-h-screen bg-[#050505] text-[#F4F4F0] py-28 px-6 sm:px-12 lg:px-20 overflow-hidden select-none border-t border-[rgba(244,244,240,0.08)]"
+      className="relative w-full min-h-screen bg-[#050505] text-[#F4F4F0] overflow-hidden border-t border-[rgba(244,244,240,0.08)]"
     >
-      {/* Section Header */}
+      {/* Header */}
       <div
         ref={headingRef}
-        className="max-w-7xl mx-auto mb-16 lg:mb-24 flex flex-col items-start gap-3"
+        className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-20 pt-24 lg:pt-28 pb-12"
       >
-        <div className="flex items-center gap-3">
-          <span className="w-2.5 h-2.5 rounded-full bg-[#8B5CF6]"></span>
+        <div className="flex items-center gap-3 mb-4">
+          <span className="w-2.5 h-2.5 rounded-full bg-[#8B5CF6]" />
+
           <span className="font-heading text-xs font-semibold tracking-[0.3em] uppercase text-[#A0A0A0]">
-            [ 05 // ENDORSEMENTS & COLLABORATIONS ]
+            [ 05 // TESTIMONIALS ]
           </span>
         </div>
-        <h2 className="text-5xl sm:text-7xl lg:text-8xl font-extrabold font-heading tracking-tighter uppercase text-[#F4F4F0]">
-          PEOPLE ARE <span className="accent-gradient-text">SAYING</span>
-        </h2>
+
+        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+          <h2 className="text-5xl sm:text-6xl lg:text-8xl font-extrabold font-heading tracking-tighter uppercase leading-[0.9]">
+            PEOPLE <span className="accent-gradient-text">SAY</span>
+          </h2>
+
+          <p className="max-w-sm text-sm text-[#888888] leading-relaxed">
+            A few words from people I have worked with across products,
+            engineering, and development.
+          </p>
+        </div>
       </div>
 
-      {/* Editorial Staggered Card Layout */}
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8 items-start">
-        {testimonialsData.map((item, index) => {
-          // Asymmetric column span & offset assignment for editorial composition
-          const colSpans = [
-            'md:col-span-7',
-            'md:col-span-5 md:mt-12',
-            'md:col-span-5',
-            'md:col-span-7 md:mt-8',
-            'md:col-span-12 max-w-3xl mx-auto mt-4'
-          ];
-
-          return (
-            <div
+      {/* Horizontal Track */}
+      <div className="relative w-full overflow-hidden">
+        <div
+          ref={trackRef}
+          className="testimonial-track flex gap-5 lg:gap-6 px-6 sm:px-12 lg:px-20 w-max"
+        >
+          {testimonialsData.map((item) => (
+            <article
               key={item.id}
-              ref={(el) => (cardsRef.current[index] = el)}
-              className={`${colSpans[index]} group relative bg-[#0c0c0e] border border-[rgba(244,244,240,0.12)] rounded-3xl p-8 lg:p-10 flex flex-col justify-between gap-6 transition-all duration-300 hover:border-[rgba(244,244,240,0.3)] hover:-translate-y-1 hover:shadow-2xl`}
+              className="testimonial-card relative flex-shrink-0 w-[82vw] sm:w-[420px] lg:w-[460px] min-h-[280px] lg:min-h-[300px] p-6 lg:p-8 rounded-2xl border border-white/[0.10] bg-[#0C0C0E] flex flex-col justify-between"
             >
-              {/* Quote text */}
-              <p className="text-base sm:text-lg text-[#F4F4F0]/90 font-light leading-relaxed tracking-wide group-hover:text-[#F4F4F0] transition-colors duration-300">
-                "{item.quote}"
-              </p>
+              {/* Top */}
+              <div>
+                <div className="flex items-center justify-between mb-8">
+                  <span className="font-heading text-xs tracking-[0.2em] text-[#666666]">
+                    {item.id}
+                  </span>
 
-              {/* Author Footer */}
-              <div className="flex items-center gap-4 border-t border-[rgba(244,244,240,0.08)] pt-6">
-                {/* CSS Avatar Initials */}
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#8B5CF6]/30 via-[#EC4899]/20 to-[rgba(244,244,240,0.1)] border border-[rgba(244,244,240,0.2)] flex items-center justify-center font-heading text-xs font-bold text-[#F4F4F0] group-hover:scale-105 transition-transform duration-300">
+                  <span className="text-2xl text-[#8B5CF6]/70">“</span>
+                </div>
+
+                <p className="text-base lg:text-lg text-[#E8E8E8] leading-relaxed font-light max-w-[390px]">
+                  {item.quote}
+                </p>
+              </div>
+
+              {/* Author */}
+              <div className="flex items-center gap-3 mt-8 pt-5 border-t border-white/[0.08]">
+                <div className="w-9 h-9 rounded-full border border-white/[0.15] bg-white/[0.06] flex items-center justify-center text-[10px] font-bold">
                   {item.avatar}
                 </div>
 
                 <div>
-                  <h4 className="font-heading text-sm font-bold tracking-wider text-[#F4F4F0] uppercase">
+                  <h4 className="font-heading text-xs font-bold tracking-wider">
                     {item.name}
                   </h4>
-                  <p className="text-[11px] font-heading tracking-widest text-[#A0A0A0] uppercase">
-                    {item.role} // <span className="text-[#F4F4F0]/70">{item.company}</span>
+
+                  <p className="text-[10px] tracking-wider text-[#777777] uppercase mt-1">
+                    {item.role}
                   </p>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            </article>
+          ))}
+
+          {/* End spacing */}
+          <div className="w-[8vw] flex-shrink-0" />
+        </div>
+      </div>
+
+      {/* Scroll Indicator */}
+      <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-20 mt-10 pb-10">
+        <div className="flex items-center gap-3 text-[#666666]">
+          <span className="text-[10px] tracking-[0.25em] uppercase">
+            Scroll
+          </span>
+
+          <div className="w-16 h-px bg-white/20" />
+
+          <span className="text-[10px] tracking-[0.25em] uppercase">→</span>
+        </div>
       </div>
     </section>
   );
