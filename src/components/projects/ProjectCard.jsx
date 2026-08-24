@@ -25,19 +25,19 @@ export const ProjectCard = React.forwardRef(({ project, index }, ref) => {
 
     if (!card || !cta || isCoarse || isReduced) return;
 
-    // QuickTo setup for cursor tracking with inertia
-    const xTo = gsap.quickTo(cta, "x", { duration: 0.35, ease: "power3.out" });
-    const yTo = gsap.quickTo(cta, "y", { duration: 0.35, ease: "power3.out" });
+    // QuickTo setup for cursor tracking with clean inertia
+    const xTo = gsap.quickTo(cta, "x", { duration: 0.25, ease: "power2.out" });
+    const yTo = gsap.quickTo(cta, "y", { duration: 0.25, ease: "power2.out" });
 
     const handleMouseEnter = (e) => {
       const rect = card.getBoundingClientRect();
-      xTo(e.clientX - rect.left);
-      yTo(e.clientY - rect.top);
+      xTo(e.clientX - rect.left + 12);
+      yTo(e.clientY - rect.top + 12);
 
       gsap.to(cta, {
         opacity: 1,
         scale: 1,
-        duration: 0.3,
+        duration: 0.25,
         ease: "power2.out",
         overwrite: "auto",
       });
@@ -45,15 +45,15 @@ export const ProjectCard = React.forwardRef(({ project, index }, ref) => {
 
     const handleMouseMove = (e) => {
       const rect = card.getBoundingClientRect();
-      xTo(e.clientX - rect.left);
-      yTo(e.clientY - rect.top);
+      xTo(e.clientX - rect.left + 12);
+      yTo(e.clientY - rect.top + 12);
     };
 
     const handleMouseLeave = () => {
       gsap.to(cta, {
         opacity: 0,
-        scale: 0.75,
-        duration: 0.25,
+        scale: 0.85,
+        duration: 0.2,
         ease: "power2.in",
         overwrite: "auto",
       });
@@ -77,19 +77,19 @@ export const ProjectCard = React.forwardRef(({ project, index }, ref) => {
       target={project.link.startsWith("http") ? "_blank" : undefined}
       rel={project.link.startsWith("http") ? "noopener noreferrer" : undefined}
       aria-label={`View ${project.title} - ${project.category}`}
-      className="project-card group relative block w-[90vw] sm:w-[85vw] lg:w-[80vw] max-w-6xl h-[75vh] sm:h-[80vh] bg-[#0c0c0e] border border-[rgba(244,244,240,0.14)] rounded-[28px] sm:rounded-[36px] p-6 sm:p-10 lg:p-12 flex flex-col justify-between overflow-hidden shadow-2xl pointer-events-auto no-underline text-inherit cursor-pointer select-text"
+      className="project-card group relative block w-[90vw] sm:w-[85vw] lg:w-[78vw] max-w-5xl h-[70vh] sm:h-[74vh] max-h-[640px] bg-[#0c0c0e] border border-[rgba(244,244,240,0.14)] rounded-[24px] sm:rounded-[32px] p-5 sm:p-8 lg:p-9 flex flex-col justify-between overflow-hidden shadow-2xl pointer-events-auto no-underline text-inherit cursor-pointer select-text"
       style={{ willChange: "transform" }}
     >
-      {/* Floating Cursor-Follow CTA */}
+      {/* Compact Floating Cursor-Follow CTA */}
       <div
         ref={ctaRef}
         aria-hidden="true"
-        className="pointer-events-none absolute top-0 left-0 z-30 opacity-0 scale-75 -translate-x-1/2 -translate-y-1/2 px-4 py-2.5 rounded-full bg-[#F4F4F0] text-[#050505] font-heading text-xs font-bold tracking-wider uppercase shadow-2xl flex items-center gap-2 border border-white/20 whitespace-nowrap select-none"
+        className="pointer-events-none absolute top-0 left-0 z-30 opacity-0 scale-[0.85] h-8 px-3.5 rounded-full bg-[#F4F4F0]/95 text-[#050505] font-heading text-[11px] font-bold tracking-wider uppercase shadow-xl flex items-center gap-1.5 border border-white/40 whitespace-nowrap select-none backdrop-blur-md"
         style={{ willChange: "transform, opacity" }}
       >
         <span>VIEW PROJECT</span>
         <svg
-          className="w-3.5 h-3.5"
+          className="w-3 h-3 stroke-[2.5]"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -97,7 +97,6 @@ export const ProjectCard = React.forwardRef(({ project, index }, ref) => {
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
-            strokeWidth={2.5}
             d="M14 5l7 7m0 0l-7 7m7-7H3"
           />
         </svg>
@@ -110,16 +109,16 @@ export const ProjectCard = React.forwardRef(({ project, index }, ref) => {
       />
 
       {/* TOP BAR: Number, Title, Category, Status Pill */}
-      <div className="relative z-10 flex flex-wrap items-center justify-between gap-4 border-b border-[rgba(244,244,240,0.1)] pb-6">
+      <div className="relative z-10 flex flex-wrap items-center justify-between gap-4 border-b border-[rgba(244,244,240,0.1)] pb-5">
         <div className="flex items-center gap-4">
-          <span className="font-heading text-2xl sm:text-3xl font-extrabold text-[#A0A0A0]">
+          <span className="font-heading text-xl sm:text-2xl font-extrabold text-[#A0A0A0]">
             {project.number}
           </span>
           <div>
-            <h3 className="font-heading text-xl sm:text-2xl lg:text-3xl font-bold uppercase tracking-tight text-[#F4F4F0]">
+            <h3 className="font-heading text-lg sm:text-xl lg:text-2xl font-bold uppercase tracking-tight text-[#F4F4F0]">
               {project.title}
             </h3>
-            <span className="text-xs font-heading tracking-widest text-[#A0A0A0] uppercase">
+            <span className="text-[11px] font-heading tracking-widest text-[#A0A0A0] uppercase">
               {project.category}
             </span>
           </div>
@@ -137,28 +136,28 @@ export const ProjectCard = React.forwardRef(({ project, index }, ref) => {
       </div>
 
       {/* MIDDLE: Abstract Spatial Visual Object / UI Artifact */}
-      <div className="relative z-10 flex-1 my-6 rounded-2xl border border-[rgba(244,244,240,0.08)] bg-[#050505]/70 overflow-hidden flex items-center justify-center p-6">
+      <div className="relative z-10 flex-1 my-4 rounded-xl border border-[rgba(244,244,240,0.08)] bg-[#050505]/70 overflow-hidden flex items-center justify-center p-4 sm:p-5">
         <div
-          className="project-visual-inner w-full h-full rounded-xl flex flex-col justify-between p-6 sm:p-8 relative overflow-hidden"
+          className="project-visual-inner w-full h-full rounded-lg flex flex-col justify-between p-5 sm:p-6 relative overflow-hidden"
           style={{
             background: project.accentGradient,
           }}
         >
           {/* Top Tag & Grid Layout */}
-          <div className="flex items-center justify-between text-xs font-heading tracking-widest text-[#F4F4F0]/80">
+          <div className="flex items-center justify-between text-[11px] font-heading tracking-widest text-[#F4F4F0]/80">
             <span>{project.visualSpec.tag}</span>
             <span>SYSTEM v2.6</span>
           </div>
 
           {/* Center Headline Banner */}
-          <div className="my-auto text-center py-8">
-            <span className="text-3xl sm:text-5xl lg:text-6xl font-black font-heading tracking-tighter text-[#F4F4F0] uppercase drop-shadow-lg block">
+          <div className="my-auto text-center py-4 sm:py-6">
+            <span className="text-2xl sm:text-4xl lg:text-5xl font-black font-heading tracking-tighter text-[#F4F4F0] uppercase drop-shadow-lg block">
               {project.visualSpec.headline}
             </span>
           </div>
 
           {/* Bottom Grid Items */}
-          <div className="flex flex-wrap items-center justify-between gap-2 border-t border-[rgba(244,244,240,0.15)] pt-4 text-[11px] font-heading tracking-wider text-[#A0A0A0] uppercase">
+          <div className="flex flex-wrap items-center justify-between gap-2 border-t border-[rgba(244,244,240,0.15)] pt-3 text-[10px] sm:text-[11px] font-heading tracking-wider text-[#A0A0A0] uppercase">
             {project.visualSpec.gridItems.map((item) => (
               <span key={item} className="flex items-center gap-1.5">
                 <span className="w-1 h-1 rounded-full bg-[#F4F4F0]/60"></span>
@@ -170,7 +169,7 @@ export const ProjectCard = React.forwardRef(({ project, index }, ref) => {
       </div>
 
       {/* BOTTOM BAR: Description & Year Metadata */}
-      <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-2">
+      <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-1">
         <p className="max-w-xl text-xs sm:text-sm text-[#A0A0A0] font-light leading-relaxed">
           {project.description}
         </p>
@@ -179,9 +178,9 @@ export const ProjectCard = React.forwardRef(({ project, index }, ref) => {
           <span className="text-xs font-heading tracking-widest text-[#A0A0A0]">
             YEAR // {project.year}
           </span>
-          <div className="w-9 h-9 rounded-full bg-[rgba(244,244,240,0.08)] border border-[rgba(244,244,240,0.15)] flex items-center justify-center text-[#F4F4F0] group-hover:bg-[#F4F4F0] group-hover:text-[#050505] transition-colors duration-300">
+          <div className="w-8 h-8 rounded-full bg-[rgba(244,244,240,0.08)] border border-[rgba(244,244,240,0.15)] flex items-center justify-center text-[#F4F4F0] group-hover:bg-[#F4F4F0] group-hover:text-[#050505] transition-colors duration-300">
             <svg
-              className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"

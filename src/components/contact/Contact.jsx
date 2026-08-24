@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { ContactScene } from './ContactScene';
-import { initContactAnimations } from '../../animations/contactAnimations';
+import React, { useEffect, useRef, useState } from "react";
+import { ContactScene } from "./ContactScene";
+import { initContactAnimations } from "../../animations/contactAnimations";
 
 export const Contact = () => {
   const containerRef = useRef(null);
@@ -14,17 +14,32 @@ export const Contact = () => {
   const formField4Ref = useRef(null);
   const objectRef = useRef(null);
 
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
   const [errors, setErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   useEffect(() => {
     const ctx = initContactAnimations({
       containerRef,
-      linesRef: { current: [line1Ref.current, line2Ref.current, line3Ref.current] },
+      linesRef: {
+        current: [line1Ref.current, line2Ref.current, line3Ref.current],
+      },
       subtextRef,
-      formFieldsRef: { current: [formField1Ref.current, formField2Ref.current, formField3Ref.current, formField4Ref.current] },
-      objectRef
+      formFieldsRef: {
+        current: [
+          formField1Ref.current,
+          formField2Ref.current,
+          formField3Ref.current,
+          formField4Ref.current,
+        ],
+      },
+      objectRef,
     });
 
     return () => ctx.revert();
@@ -33,31 +48,59 @@ export const Contact = () => {
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     if (errors[e.target.name]) {
-      setErrors((prev) => ({ ...prev, [e.target.name]: '' }));
+      setErrors((prev) => ({ ...prev, [e.target.name]: "" }));
+    }
+    if (submitError) {
+      setSubmitError("");
     }
   };
 
   const validate = () => {
     const newErrors = {};
-    if (!formData.name.trim()) newErrors.name = 'NAME IS REQUIRED';
+    if (!formData.name.trim()) newErrors.name = "NAME IS REQUIRED";
     if (!formData.email.trim()) {
-      newErrors.email = 'EMAIL IS REQUIRED';
+      newErrors.email = "EMAIL IS REQUIRED";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'INVALID EMAIL FORMAT';
+      newErrors.email = "INVALID EMAIL FORMAT";
     }
-    if (!formData.message.trim()) newErrors.message = 'MESSAGE IS REQUIRED';
+    if (!formData.message.trim()) newErrors.message = "MESSAGE IS REQUIRED";
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitError("");
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
 
-    setIsSubmitted(true);
+    setIsSubmitting(true);
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (response.ok && data.success) {
+        setIsSubmitted(true);
+      } else {
+        setSubmitError(
+          data.error || "UNABLE TO SEND MESSAGE // PLEASE TRY AGAIN"
+        );
+      }
+    } catch (err) {
+      console.error("Submission error:", err);
+      setSubmitError("UNABLE TO SEND MESSAGE // PLEASE TRY AGAIN");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -75,7 +118,6 @@ export const Contact = () => {
       </div>
 
       <div className="relative z-20 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-        
         {/* LEFT COLUMN: Oversized Line-by-Line Heading & Supporting Subtext */}
         <div className="lg:col-span-6 flex flex-col items-start gap-6">
           <div className="flex items-center gap-3 mb-2">
@@ -116,7 +158,8 @@ export const Contact = () => {
             ref={subtextRef}
             className="max-w-md text-base sm:text-lg text-[#444444] font-light leading-relaxed pt-4"
           >
-            Have a product, interactive interface, or spatial digital experience worth building? Send a message to start the conversation.
+            Have a product, interactive interface, or spatial digital experience
+            worth building? Send a message to start the conversation.
           </p>
         </div>
 
@@ -129,12 +172,14 @@ export const Contact = () => {
                 MESSAGE SENT // THANK YOU
               </h3>
               <p className="text-sm text-[#A0A0A0] font-light leading-relaxed">
-                Your transmission has been logged. I will respond to your inquiry within 24 business hours.
+                Your transmission has been logged. I will respond to your
+                inquiry within 24 business hours.
               </p>
               <button
                 onClick={() => {
                   setIsSubmitted(false);
-                  setFormData({ name: '', email: '', message: '' });
+                  setSubmitError("");
+                  setFormData({ name: "", email: "", message: "" });
                 }}
                 className="mt-4 text-xs font-heading tracking-widest text-[#84cc16] uppercase hover:underline"
               >
@@ -142,11 +187,25 @@ export const Contact = () => {
               </button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="flex flex-col gap-8 w-full max-w-xl">
-              
+            <form
+              onSubmit={handleSubmit}
+              className="flex flex-col gap-8 w-full max-w-xl"
+            >
+              {submitError && (
+                <div className="p-4 rounded-2xl bg-[#e11d48]/10 border border-[#e11d48]/30 text-[#e11d48] font-heading text-xs font-semibold tracking-wider uppercase">
+                  [ ERROR ] {submitError}
+                </div>
+              )}
+
               {/* Field 1: Name */}
-              <div ref={formField1Ref} className="flex flex-col gap-2 border-b border-[#050505]/20 pb-2 focus-within:border-[#050505] transition-colors duration-300">
-                <label htmlFor="contact-name" className="font-heading text-xs tracking-[0.2em] uppercase text-[#666666]">
+              <div
+                ref={formField1Ref}
+                className="flex flex-col gap-2 border-b border-[#050505]/20 pb-2 focus-within:border-[#050505] transition-colors duration-300"
+              >
+                <label
+                  htmlFor="contact-name"
+                  className="font-heading text-xs tracking-[0.2em] uppercase text-[#666666]"
+                >
                   YOUR NAME *
                 </label>
                 <input
@@ -155,7 +214,7 @@ export const Contact = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  placeholder="Alexander Vance"
+                  placeholder="Umair khan"
                   className="w-full bg-transparent text-lg font-heading text-[#050505] placeholder-[#999999] focus:outline-none py-1"
                 />
                 {errors.name && (
@@ -166,8 +225,14 @@ export const Contact = () => {
               </div>
 
               {/* Field 2: Email */}
-              <div ref={formField2Ref} className="flex flex-col gap-2 border-b border-[#050505]/20 pb-2 focus-within:border-[#050505] transition-colors duration-300">
-                <label htmlFor="contact-email" className="font-heading text-xs tracking-[0.2em] uppercase text-[#666666]">
+              <div
+                ref={formField2Ref}
+                className="flex flex-col gap-2 border-b border-[#050505]/20 pb-2 focus-within:border-[#050505] transition-colors duration-300"
+              >
+                <label
+                  htmlFor="contact-email"
+                  className="font-heading text-xs tracking-[0.2em] uppercase text-[#666666]"
+                >
                   EMAIL ADDRESS *
                 </label>
                 <input
@@ -176,7 +241,7 @@ export const Contact = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="alexander@vance.design"
+                  placeholder="umair@gmail.com"
                   className="w-full bg-transparent text-lg font-heading text-[#050505] placeholder-[#999999] focus:outline-none py-1"
                 />
                 {errors.email && (
@@ -187,8 +252,14 @@ export const Contact = () => {
               </div>
 
               {/* Field 3: Message */}
-              <div ref={formField3Ref} className="flex flex-col gap-2 border-b border-[#050505]/20 pb-2 focus-within:border-[#050505] transition-colors duration-300">
-                <label htmlFor="contact-message" className="font-heading text-xs tracking-[0.2em] uppercase text-[#666666]">
+              <div
+                ref={formField3Ref}
+                className="flex flex-col gap-2 border-b border-[#050505]/20 pb-2 focus-within:border-[#050505] transition-colors duration-300"
+              >
+                <label
+                  htmlFor="contact-message"
+                  className="font-heading text-xs tracking-[0.2em] uppercase text-[#666666]"
+                >
                   PROJECT DETAILS / MESSAGE *
                 </label>
                 <textarea
@@ -211,24 +282,30 @@ export const Contact = () => {
               <div ref={formField4Ref} className="pt-4">
                 <button
                   type="submit"
-                  className="w-full sm:w-auto px-10 py-4 rounded-full bg-[#050505] text-[#F4F4F0] font-heading text-xs font-bold tracking-[0.25em] uppercase hover:bg-[#84cc16] hover:text-[#050505] transition-all duration-300 flex items-center justify-center gap-3 group shadow-xl"
+                  disabled={isSubmitting}
+                  className="w-full sm:w-auto px-10 py-4 rounded-full bg-[#050505] text-[#F4F4F0] font-heading text-xs font-bold tracking-[0.25em] uppercase hover:bg-[#84cc16] hover:text-[#050505] transition-all duration-300 flex items-center justify-center gap-3 group shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <span>SEND MESSAGE</span>
-                  <svg
-                    className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                  </svg>
+                  <span>{isSubmitting ? "SENDING..." : "SEND MESSAGE"}</span>
+                  {!isSubmitting && (
+                    <svg
+                      className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M14 5l7 7m0 0l-7 7m7-7H3"
+                      />
+                    </svg>
+                  )}
                 </button>
               </div>
-
             </form>
           )}
         </div>
-
       </div>
     </section>
   );

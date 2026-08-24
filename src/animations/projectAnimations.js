@@ -128,16 +128,16 @@ export const initProjectStackAnimations = ({
       if (!visual) return;
 
       gsap.set(visual, {
-        scale: 1.04,
+        scale: 1.01,
       });
     });
 
     // Progressive exposed card depth levels
     const STACK_LEVELS = [
       { y: "0vh", scale: 1, opacity: 1 },
-      { y: "-4.5vh", scale: 0.97, opacity: 0.94 },
-      { y: "-8.5vh", scale: 0.94, opacity: 0.86 },
-      { y: "-12vh", scale: 0.91, opacity: 0.78 },
+      { y: "-3.5vh", scale: 0.97, opacity: 0.94 },
+      { y: "-6.5vh", scale: 0.94, opacity: 0.86 },
+      { y: "-9.5vh", scale: 0.91, opacity: 0.78 },
     ];
 
     // ==================================================

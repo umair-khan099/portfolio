@@ -1,70 +1,85 @@
 export const projectsData = [
   {
-    id: "alpha",
+    id: "edu-erp",
     number: "01",
-    title: "PROJECT ALPHA",
-    category: "WEB EXPERIENCE",
-    description: "A spatial web experience built around fluid interaction, real-time lighting physics, and generative typography.",
+    title: "EDU ERP",
+    category: "MULTI-TENANT SAAS",
+    description:
+      "A multi-tenant education ERP designed to manage academic operations through role-based access control, tenant isolation, authentication, subscriptions, and modular backend architecture.",
     year: "2026",
-    status: "LIVE PROJECT",
-    link: "#alpha",
-    accentGradient: "linear-gradient(135deg, rgba(139, 92, 246, 0.25) 0%, rgba(236, 72, 153, 0.2) 50%, rgba(249, 115, 22, 0.25) 100%)",
-    badge: "FEATURED WORK",
+    status: "IN DEVELOPMENT",
+    link: "https://scol.space/",
+    accentGradient:
+      "linear-gradient(135deg, rgba(59, 130, 246, 0.25) 0%, rgba(139, 92, 246, 0.2) 50%, rgba(236, 72, 153, 0.2) 100%)",
+    badge: "ENTERPRISE SYSTEM",
     visualSpec: {
-      tag: "WEBGL // REALTIME",
-      headline: "SPATIAL ARCHITECTURE",
-      gridItems: ["3D CANVAS", "PHYSICS ENGINE", "GSAP TICKER"]
-    }
+      tag: "EDUCATION // SAAS",
+      headline: "EDU ERP SYSTEM",
+      gridItems: ["MULTI-TENANCY", "RBAC", "SUBSCRIPTIONS"],
+    },
   },
+
   {
-    id: "beta",
+    id: "adop",
     number: "02",
-    title: "PROJECT BETA",
-    category: "DIGITAL PRODUCT",
-    description: "Next-gen web application dashboard featuring custom canvas charts, dark mode glassmorphism, and instant telemetry.",
+    title: "ADOP",
+    category: "DEVELOPER SDK",
+    description:
+      "A production-oriented Digital Adoption Platform SDK for building interactive product experiences with builder workflows, runtime flows, element inspection, selector generation, analytics, and dynamic UI guidance.",
+    year: "2026",
+    status: "IN DEVELOPMENT",
+    link: "https://client-adop.vercel.app/",
+    accentGradient:
+      "linear-gradient(135deg, rgba(139, 92, 246, 0.25) 0%, rgba(236, 72, 153, 0.2) 50%, rgba(59, 130, 246, 0.2) 100%)",
+    badge: "SDK / PLATFORM",
+    visualSpec: {
+      tag: "JAVASCRIPT // SDK",
+      headline: "DIGITAL ADOPTION",
+      gridItems: ["BUILDER MODE", "RUNTIME ENGINE", "ELEMENT INSPECTION"],
+    },
+  },
+
+  {
+    id: "classify",
+    number: "03",
+    title: "CLASSIFY",
+    category: "ACADEMIC PLATFORM",
+    description:
+      "A scalable academic operations and community platform with role-based portals for three user roles, centralized campus workflows, classroom and staffroom modules, attendance tracking, real-time messaging, community feeds, and media management.",
     year: "2026",
     status: "LIVE PROJECT",
-    link: "#beta",
-    accentGradient: "linear-gradient(135deg, rgba(236, 72, 153, 0.25) 0%, rgba(168, 85, 247, 0.2) 50%, rgba(59, 130, 246, 0.25) 100%)",
+    link: "https://classcify-client.vercel.app/",
+    accentGradient:
+      "linear-gradient(135deg, rgba(249, 115, 22, 0.25) 0%, rgba(236, 72, 153, 0.2) 50%, rgba(139, 92, 246, 0.2) 100%)",
     badge: "CASE STUDY",
     visualSpec: {
-      tag: "PRODUCT DESIGN",
-      headline: "TELEMETRY DASHBOARD",
-      gridItems: ["DATA ENGINE", "DARK GLASS", "INTERACTIVE MAP"]
-    }
+      tag: "ACADEMIC // COMMUNITY",
+      headline: "CLASSIFY",
+      gridItems: [
+        "ROLE-BASED PORTALS",
+        "REALTIME MESSAGING",
+        "CLOUDINARY MEDIA",
+      ],
+    },
   },
+
   {
-    id: "gamma",
-    number: "03",
-    title: "PROJECT GAMMA",
-    category: "AI EXPERIENCE",
-    description: "Conversational visual interface powered by generative shaders, dynamic prompt loops, and neural audio visualizers.",
-    year: "2026",
-    status: "LIVE PROJECT",
-    link: "#gamma",
-    accentGradient: "linear-gradient(135deg, rgba(249, 115, 22, 0.25) 0%, rgba(236, 72, 153, 0.2) 50%, rgba(139, 92, 246, 0.25) 100%)",
-    badge: "EXPERIMENTAL",
-    visualSpec: {
-      tag: "AI PLATFORM",
-      headline: "NEURAL VISUALIZER",
-      gridItems: ["GENERATIVE SHADERS", "PROMPT LOOP", "AUDIO GRAPH"]
-    }
-  },
-  {
-    id: "delta",
+    id: "project-four",
     number: "04",
-    title: "PROJECT DELTA",
-    category: "INTERACTIVE SYSTEM",
-    description: "Modular 3D configurator and interactive design studio allowing users to customize spatial geometries in real-time.",
+    title: "PROJECT FOUR",
+    category: "AI SYSTEM",
+    description:
+      "An ongoing full-stack project exploring AI-powered workflows, intelligent application architecture, and scalable product systems.",
     year: "2026",
-    status: "LIVE PROJECT",
-    link: "#delta",
-    accentGradient: "linear-gradient(135deg, rgba(99, 102, 241, 0.25) 0%, rgba(168, 85, 247, 0.2) 50%, rgba(236, 72, 153, 0.25) 100%)",
-    badge: "INNOVATION",
+    status: "CURRENTLY BUILDING",
+    link: "#project-four",
+    accentGradient:
+      "linear-gradient(135deg, rgba(99, 102, 241, 0.25) 0%, rgba(168, 85, 247, 0.2) 50%, rgba(236, 72, 153, 0.2) 100%)",
+    badge: "WORK IN PROGRESS",
     visualSpec: {
-      tag: "3D CONFIGURATOR",
-      headline: "SPATIAL STUDIO",
-      gridItems: ["PROCEDURAL MESH", "LIGHTING PIPELINE", "EXPORT TOOL"]
-    }
-  }
+      tag: "AI // FULL STACK",
+      headline: "INTELLIGENT SYSTEM",
+      gridItems: ["AI WORKFLOW", "FULL STACK", "SYSTEM ARCHITECTURE"],
+    },
+  },
 ];
